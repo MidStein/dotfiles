@@ -1,0 +1,6 @@
+# https://github.com/Kharacternyk/dotcommon
+alias mv='mv -i'
+alias rm='rm -I'
+alias ..='cd ..'
+alias g='git'
+alias gs='git status'
