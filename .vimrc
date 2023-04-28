@@ -1,4 +1,4 @@
-" https://missing.csail.mit.edu/2020/editors/
+" https://missing.csail.mitmedu/2020/editors/
 set nocompatible
 syntax on
 set shortmess+=I
@@ -13,14 +13,6 @@ set incsearch
 nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
 set noerrorbells visualbell t_vb=
 set mouse+=a
-nnoremap <Left>  :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up>    :echoe "Use k"<CR>
-nnoremap <Down>  :echoe "Use j"<CR>
-inoremap <Left>  <ESC>:echoe "Use h"<CR>
-inoremap <Right> <ESC>:echoe "Use l"<CR>
-inoremap <Up>    <ESC>:echoe "Use k"<CR>
-inoremap <Down>  <ESC>:echoe "Use j"<CR>
 
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -38,17 +30,18 @@ endif
 set expandtab
 set termguicolors
 set hlsearch
-set autoindent
-" set shiftwidth=4
-set tabstop=4
+" set autoindent
+set tabstop=2
 set encoding=utf-8
-
-" https://github.com/Kharacternyk/dotcommon#id5
-colorscheme gruvbox
-set background=light
 
 " https://github.com/anishathalye/dotfiles/blob/master/vimrc
 set scrolloff=5
 
 " /etc/vim/vimrc
 set autowrite
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" https://github.com/khuedoan/dotfiles/blob/97d5d7bb4f00374a19beb50eaa75a83a7d570b06/.vimrc
+let &t_EI = "\033[2 q" " NORMAL  █
+let &t_SI = "\033[5 q" " INSERT  |
+let &t_SR = "\033[3 q" " REPLACE _

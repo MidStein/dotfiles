@@ -4,3 +4,6 @@ alias rm='rm -I'
 alias ..='cd ..'
 alias g='git'
 alias gs='git status'
+
+alias wslv='wslview'
+alias fd='fdfind'

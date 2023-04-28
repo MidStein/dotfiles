@@ -1,3 +1,14 @@
 set bell-style none
 
+# https://missing.csail.mit.edu/2020/editors/
 set editing-mode vi
+
+# https://stackoverflow.com/questions/44534678/how-to-change-cursor-shape-depending-on-vi-mode-in-bash
+set show-mode-in-prompt on
+set vi-cmd-mode-string "\1\e[2 q\2"
+set vi-ins-mode-string "\1\e[6 q\2"
+
+# https://stackoverflow.com/a/42107711/16328664
+# switch to block cursor before executing a command
+set keymap vi-insert
+RETURN: "\e\n"
