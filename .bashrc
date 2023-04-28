@@ -157,3 +157,6 @@ fi
 
 # https://unix.stackexchange.com/a/408419
 export SYSTEMD_EDITOR=vim
+
+# https://superuser.com/a/1681740/1752376
+export PS1="\n${PS1}"
