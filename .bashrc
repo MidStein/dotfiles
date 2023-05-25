@@ -56,10 +56,12 @@ if [ -n "$force_color_prompt" ]; then
   fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+if [[ $(uname -s) != MINGW64_NT* ]]; then
+  if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+  else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+  fi
 fi
 unset color_prompt force_color_prompt
 
@@ -139,8 +141,10 @@ export NVM_DIR="$HOME/.nvm"
 export SYSTEMD_EDITOR=vim
 
 # Add a new line at the end of the command prompt
-#PS1=${PS1}\\n
-PS1=${PS1%?}
+# PS1=${PS1}\\n
+if [[ $(uname -s) != MINGW64_NT* ]]; then
+  PS1=${PS1%?}
+fi
 PS1=${PS1%?}\n'$ '
 
 # https://github.com/jarun/nnn/wiki/Basic-use-cases#configure-cd-on-quit
