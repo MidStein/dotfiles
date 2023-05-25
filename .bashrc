@@ -143,9 +143,6 @@ export SYSTEMD_EDITOR=vim
 PS1=${PS1%?}
 PS1=${PS1%?}\n'$ '
 
-# https://www.youtube.com/embed/-knZwdd1ScU
-export NNN_FIFO="/tmp/nnn.fifo"
-
 # https://github.com/jarun/nnn/wiki/Basic-use-cases#configure-cd-on-quit
 # https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_sh_zsh
 n ()
