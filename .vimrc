@@ -248,6 +248,11 @@ augroup END
 
 colorscheme peachpuff
 
+" https://vi.stackexchange.com/a/24396
+let g:vim_json_syntax_conceal=0
+let g:vim_markdown_conceal=0
+let g:vim_markdown_conceal_code_blocks=0
+
 " https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
 " sensible.vim - Defaults everyone can agree on
 " Maintainer:   Tim Pope <http://tpo.pe/>
