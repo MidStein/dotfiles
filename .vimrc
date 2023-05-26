@@ -51,7 +51,7 @@ set nowrap
 set showmatch
 
 " https://github.com/neoclide/coc.nvim
-if system('uname -s') !~ '^MINGW64_NT'
+if isdirectory($HOME . '/.vim/pack/vendor/start/coc.nvim')
   " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
   " utf-8 byte sequence
   set encoding=utf-8
