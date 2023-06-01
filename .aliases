@@ -5,6 +5,3 @@ alias ..='cd ..'
 alias g='git'
 alias gs='git status'
 
-if [ -f "/proc/sys/fs/binfmt_misc/WSLInterop" ]; then
-  alias start='explorer.exe'
-fi
