@@ -10,11 +10,8 @@ nmap q: <nop>
 set noerrorbells visualbell t_vb=
 set mouse+=a
 
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-
 " WSL yank support
-let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+let s:clip = '/mnt/c/Windows/System32/clip.exe'
 if executable(s:clip)
     augroup WSLYank
       autocmd!
@@ -55,7 +52,7 @@ set showmatch
 if isdirectory($HOME . '/.vim/pack/vendor/start/coc.nvim')
   " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
   " utf-8 byte sequence
-  set encoding=utf-8
+  " set encoding=utf-8
   " Some servers have issues with backup files, see #649
   set nobackup
   set nowritebackup
@@ -234,9 +231,6 @@ let g:coc_global_extensions = [
 
 " https://github.com/vim-airline/vim-airline/issues/1786
 let g:airline_symbols_ascii = 1
-
-let g:airline#extensions#coc#show_coc_status=0
-" let g:airline#extensions#coc#enabled=0 
 
 " https://stackoverflow.com/a/37558470/16328664
 augroup remember_folds
