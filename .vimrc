@@ -48,6 +48,7 @@ filetype plugin on
 set softtabstop=2
 set shiftwidth=2
 set nowrap
+autocmd BufRead,BufNewFile *.md setlocal wrap
 set showmatch
 
 " https://github.com/neoclide/coc.nvim
