@@ -17,8 +17,8 @@ let g:ctrlp_cmd = 'CtrlP'
 let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
 if executable(s:clip)
     augroup WSLYank
-        autocmd!
-        autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+      autocmd!
+      autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
     augroup END
 endif
 
@@ -74,9 +74,9 @@ if isdirectory($HOME . '/.vim/pack/vendor/start/coc.nvim')
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
   " other plugin before putting this into your config
   inoremap <silent><expr> <TAB>
-        \ coc#pum#visible() ? coc#pum#next(1) :
-        \ CheckBackspace() ? "\<Tab>" :
-        \ coc#refresh()
+    \ coc#pum#visible() ? coc#pum#next(1) :
+    \ CheckBackspace() ? "\<Tab>" :
+    \ coc#refresh()
   inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
   " Make <CR> to accept selected completion item or notify coc.nvim to format
@@ -216,24 +216,21 @@ if isdirectory($HOME . '/.vim/pack/vendor/start/coc.nvim')
 endif
 
 let g:coc_global_extensions = [
-      \ 'coc-css',
-      \ 'coc-emmet',
-      \ 'coc-eslint',
-      \ 'coc-html',
-      \ 'coc-java',
-      \ 'coc-json',
-      \ 'coc-prettier',
-      \ 'coc-snippets',
-      \ 'coc-tsserver',
-      \ 'coc-yaml',
-      \ 'coc-clangd',
-      \ 'coc-pyright',
-      \ 'coc-svg',
-      \ 'coc-xml'
-      \]
-
-" https://www.baeldung.com/linux/editing-html-xml-files-vim#using-default-vim-macros
-runtime macros/matchit.vim
+  \ 'coc-css',
+  \ 'coc-emmet',
+  \ 'coc-eslint',
+  \ 'coc-html',
+  \ 'coc-java',
+  \ 'coc-json',
+  \ 'coc-prettier',
+  \ 'coc-snippets',
+  \ 'coc-tsserver',
+  \ 'coc-yaml',
+  \ 'coc-clangd',
+  \ 'coc-pyright',
+  \ 'coc-svg',
+  \ 'coc-xml'
+  \]
 
 " https://github.com/vim-airline/vim-airline/issues/1786
 let g:airline_symbols_ascii = 1
@@ -405,7 +402,7 @@ endif
 " From `:help :DiffOrig`.
 if exists(":DiffOrig") != 2
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
-        \ | diffthis | wincmd p | diffthis
+    \ | diffthis | wincmd p | diffthis
 endif
 
 " Correctly highlight $() and other modern affordances in filetype=sh.
