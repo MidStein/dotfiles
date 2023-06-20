@@ -51,7 +51,7 @@ set nowrap
 autocmd BufRead,BufNewFile *.md setlocal wrap
 set showmatch
 
-" https://github.com/neoclide/coc.nvim
+" https://github.com/neoclide/coc.nvim (163)
 if isdirectory($HOME . '/.vim/pack/vendor/start/coc.nvim')
   " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
   " utf-8 byte sequence
@@ -252,7 +252,7 @@ let g:vim_json_syntax_conceal=0
 let g:vim_markdown_conceal=0
 let g:vim_markdown_conceal_code_blocks=0
 
-" https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
+" https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim (167)
 " sensible.vim - Defaults everyone can agree on
 " Maintainer:   Tim Pope <http://tpo.pe/>
 " Version:      2.0
