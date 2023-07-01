@@ -414,3 +414,14 @@ if exists(':Man') != 2 && !exists('g:loaded_man') && &filetype !=? 'man' && !has
   runtime ftplugin/man.vim
 endif
 
+" https://www.reddit.com/r/vim/comments/13ua4pk/weekly_vim_tips_and_tricks_thread_24/jlzj12t/
+set foldopen-=block
+
+set splitbelow
+set splitright
+
+" https://www.youtube.com/watch?v=XA2WjJbmmoM&t=2312s
+set path+=**
+
+" https://stackoverflow.com/a/23978432/16328664
+set wildignorecase
