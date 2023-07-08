@@ -1,5 +1,4 @@
 " https://missing.csail.mitmedu/2020/editors/
-syntax on
 set shortmess+=I
 set number
 set relativenumber
@@ -417,3 +416,24 @@ set path+=**
 
 " https://stackoverflow.com/a/23978432/16328664
 set wildignorecase
+
+
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+call plug#begin()
+Plug 'https://github.com/neoclide/coc.nvim.git'
+Plug 'https://github.com/Yggdroot/indentLine.git'
+Plug 'https://github.com/tpope/vim-commentary.git'
+Plug 'https://github.com/preservim/nerdtree.git'
+Plug 'https://github.com/editorconfig/editorconfig-vim.git'
+Plug 'https://github.com/tpope/vim-surround.git'
+Plug 'https://github.com/mattn/emmet-vim.git'
+Plug 'https://github.com/vim-airline/vim-airline.git'
+Plug 'https://github.com/ryanoasis/vim-devicons.git'
+Plug 'https://github.com/sheerun/vim-polyglot.git'
+Plug 'https://github.com/tpope/vim-abolish.git'
+call plug#end()
+
