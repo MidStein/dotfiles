@@ -28,10 +28,6 @@ set encoding=utf-8
 " https://github.com/anishathalye/dotfiles/blob/master/vimrc
 set scrolloff=5
 
-" /etc/vim/vimrc
-set autowrite
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
 " https://github.com/khuedoan/dotfiles/blob/97d5d7bb4f00374a19beb50eaa75a83a7d570b06/.vimrc
 let &t_EI = "\033[2 q" " NORMAL  █
 let &t_SI = "\033[6 q" " INSERT  |
