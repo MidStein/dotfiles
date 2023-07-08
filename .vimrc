@@ -6,7 +6,6 @@ set relativenumber
 set hidden
 set ignorecase
 set smartcase
-nmap q: <nop>
 set noerrorbells visualbell t_vb=
 set mouse+=a
 
