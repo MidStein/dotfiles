@@ -227,12 +227,12 @@ let g:coc_global_extensions = [
 " https://github.com/vim-airline/vim-airline/issues/1786
 let g:airline_symbols_ascii = 1
 
-" https://stackoverflow.com/a/37558470/16328664
-augroup remember_folds
-  autocmd!
-  autocmd BufWinLeave * mkview
-  autocmd BufWinEnter * silent! loadview
-augroup END
+" " https://stackoverflow.com/a/37558470/16328664
+" augroup remember_folds
+"   autocmd!
+"   autocmd BufWinLeave * silent! mkview
+"   autocmd BufWinEnter * silent! loadview
+" augroup END
 
 colorscheme peachpuff
 
