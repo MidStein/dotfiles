@@ -5,8 +5,10 @@ set relativenumber
 set hidden
 set ignorecase
 set smartcase
-set noerrorbells visualbell t_vb=
-set mouse+=a
+set noerrorbells
+set visualbell
+set t_vb=
+set mouse=a
 
 " WSL yank support
 let s:clip = '/mnt/c/Windows/System32/clip.exe'
@@ -28,12 +30,9 @@ set encoding=utf-8
 set scrolloff=5
 
 " https://github.com/khuedoan/dotfiles/blob/97d5d7bb4f00374a19beb50eaa75a83a7d570b06/.vimrc
-let &t_EI = "\033[2 q" " NORMAL  █
-let &t_SI = "\033[6 q" " INSERT  |
-let &t_SR = "\033[3 q" " REPLACE _
-
-" https://superuser.com/a/189823/1752376
-filetype plugin on
+let &t_EI="\033[2 q" " NORMAL  █
+let &t_SI="\033[6 q" " INSERT  |
+let &t_SR="\033[3 q" " REPLACE _
 
 " https://marioyepes.com/vim-setup-for-modern-web-development/
 set softtabstop=2
@@ -204,31 +203,34 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 let g:coc_global_extensions = [
+  \ 'coc-blade',
+  \ 'coc-clangd',
   \ 'coc-css',
+  \ 'coc-docker',
   \ 'coc-emmet',
   \ 'coc-eslint',
   \ 'coc-html',
+  \ '@yaegassy/coc-intelephense',
   \ 'coc-java',
   \ 'coc-json',
+  \ '@yaegassy/coc-laravel',
+  \ 'coc-markdownlint',
   \ 'coc-prettier',
+  \ 'coc-sh',
   \ 'coc-snippets',
+  \ 'coc-svg',
   \ 'coc-tsserver',
   \ 'coc-yaml',
   \ 'coc-clangd',
   \ 'coc-pyright',
   \ 'coc-svg',
-  \ 'coc-xml'
+  \ 'coc-vimlsp',
+  \ 'coc-xml',
+  \ 'coc-yaml'
   \]
 
 " https://github.com/vim-airline/vim-airline/issues/1786
 let g:airline_symbols_ascii = 1
-
-" " https://stackoverflow.com/a/37558470/16328664
-" augroup remember_folds
-"   autocmd!
-"   autocmd BufWinLeave * silent! mkview
-"   autocmd BufWinEnter * silent! loadview
-" augroup END
 
 colorscheme peachpuff
 
@@ -416,7 +418,6 @@ set path+=**
 
 " https://stackoverflow.com/a/23978432/16328664
 set wildignorecase
-
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
