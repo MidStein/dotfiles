@@ -26,6 +26,3 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# https://stackoverflow.com/a/36726662/16328664
-# https://stackoverflow.com/a/6451487/16328664
-export LESS="$LESS -R -Q -i -F"

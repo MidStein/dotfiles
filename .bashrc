@@ -147,36 +147,16 @@ if [[ $(uname -s) != MINGW64_NT* ]]; then
 fi
 PS1=${PS1%?}\n'$ '
 
-# https://github.com/jarun/nnn/wiki/Basic-use-cases#configure-cd-on-quit
-# https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_sh_zsh
-n ()
-{
-  # Block nesting of nnn in subshells
-  [ "${NNNLVL:-0}" -eq 0 ] || {
-    echo "nnn is already running"
-    return
-  }
+# automatically added when installing rust
+. "$HOME/.cargo/env"
 
-  # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
-  # If NNN_TMPFILE is set to a custom path, it must be exported for nnn to
-  # see. To cd on quit only on ^G, remove the "export" and make sure not to
-  # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
-  NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-  #export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
-  # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-  # stty start undef
-  # stty stop undef
-  # stty lwrap undef
-  # stty lnext undef
+# https://stackoverflow.com/a/36726662/16328664
+# https://stackoverflow.com/a/6451487/16328664
+export LESS="$LESS -R -Q -i -F"
 
-  # The command builtin allows one to alias nnn to n, if desired, without
-  # making an infinitely recursive alias
-  command nnn "$@"
-
-  [ ! -f "$NNN_TMPFILE" ] || {
-    . "$NNN_TMPFILE"
-    rm -f "$NNN_TMPFILE" > /dev/null
-  }
-}
+# default had hard to see white text
+# https://github.com/sharkdp/bat#highlighting-theme
+export BAT_THEME="Solarized (light)"
 
