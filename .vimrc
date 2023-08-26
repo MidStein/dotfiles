@@ -219,6 +219,7 @@ let g:coc_global_extensions = [
   \ 'coc-sh',
   \ 'coc-snippets',
   \ 'coc-svg',
+  \ 'coc-texlab',
   \ 'coc-tsserver',
   \ 'coc-yaml',
   \ 'coc-clangd',
@@ -425,16 +426,17 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin()
-Plug 'https://github.com/neoclide/coc.nvim.git'
-Plug 'https://github.com/Yggdroot/indentLine.git'
-Plug 'https://github.com/tpope/vim-commentary.git'
-Plug 'https://github.com/preservim/nerdtree.git'
-Plug 'https://github.com/editorconfig/editorconfig-vim.git'
-Plug 'https://github.com/tpope/vim-surround.git'
-Plug 'https://github.com/mattn/emmet-vim.git'
-Plug 'https://github.com/vim-airline/vim-airline.git'
-Plug 'https://github.com/ryanoasis/vim-devicons.git'
-Plug 'https://github.com/sheerun/vim-polyglot.git'
-Plug 'https://github.com/tpope/vim-abolish.git'
+Plug 'neoclide/coc.nvim'
+Plug 'Yggdroot/indentLine'
+Plug 'tpope/vim-commentary'
+Plug 'preservim/nerdtree'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-surround'
+Plug 'mattn/emmet-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'ryanoasis/vim-devicons'
+Plug 'sheerun/vim-polyglot'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
