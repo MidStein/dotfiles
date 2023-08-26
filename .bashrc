@@ -147,6 +147,8 @@ if [[ $(uname -s) != MINGW64_NT* ]]; then
 fi
 PS1=${PS1%?}\n'$ '
 
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # automatically added when installing rust
 . "$HOME/.cargo/env"
 
@@ -159,4 +161,11 @@ export LESS="$LESS -R -Q -i -F"
 # default had hard to see white text
 # https://github.com/sharkdp/bat#highlighting-theme
 export BAT_THEME="Solarized (light)"
+
+export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
+
+eval "$(zoxide init bash)"
+
+eval "$(mcfly init bash)"
+export MCFLY_RESULTS_SORT=LAST_RUN
 
