@@ -1,5 +1,4 @@
 " https://missing.csail.mitmedu/2020/editors/
-set shortmess+=I
 set number
 set relativenumber
 set hidden
@@ -13,10 +12,10 @@ set mouse=a
 " WSL yank support
 let s:clip = '/mnt/c/Windows/System32/clip.exe'
 if executable(s:clip)
-    augroup WSLYank
-      autocmd!
-      autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
-    augroup END
+  augroup WSLYank
+    autocmd!
+    autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+  augroup END
 endif
 
 " https://github.com/Kharacternyk/dotcommon#id4
@@ -29,18 +28,13 @@ set encoding=utf-8
 " https://github.com/anishathalye/dotfiles/blob/master/vimrc
 set scrolloff=5
 
-" https://github.com/khuedoan/dotfiles/blob/97d5d7bb4f00374a19beb50eaa75a83a7d570b06/.vimrc
-let &t_EI="\033[2 q" " NORMAL  █
-let &t_SI="\033[6 q" " INSERT  |
-let &t_SR="\033[3 q" " REPLACE _
-
 " https://marioyepes.com/vim-setup-for-modern-web-development/
 set softtabstop=2
 set shiftwidth=2
 set nowrap
 set showmatch
 
-" https://github.com/neoclide/coc.nvim (163)
+" https://github.com/neoclide/coc.nvim (160)
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
 " utf-8 byte sequence
 " set encoding=utf-8
@@ -215,25 +209,21 @@ let g:coc_global_extensions = [
   \ 'coc-json',
   \ '@yaegassy/coc-laravel',
   \ 'coc-markdownlint',
+  \ 'coc-pairs',
   \ 'coc-prettier',
+  \ 'coc-pyright',
   \ 'coc-sh',
   \ 'coc-snippets',
   \ 'coc-svg',
   \ 'coc-texlab',
   \ 'coc-tsserver',
-  \ 'coc-yaml',
-  \ 'coc-clangd',
-  \ 'coc-pyright',
-  \ 'coc-svg',
   \ 'coc-vimlsp',
   \ 'coc-xml',
-  \ 'coc-yaml'
+  \ 'coc-yaml',
   \]
 
 " https://github.com/vim-airline/vim-airline/issues/1786
 let g:airline_symbols_ascii = 1
-
-colorscheme peachpuff
 
 " https://vi.stackexchange.com/a/24396
 let g:vim_json_syntax_conceal=0
@@ -284,6 +274,7 @@ if s:MaySet('smarttab')
 endif
 
 set nrformats-=octal
+set nrformats+=unsigned
 
 " Make the escape key more responsive by decreasing the wait time for an
 " escape sequence (e.g., arrow keys).
@@ -429,7 +420,6 @@ call plug#begin()
 Plug 'neoclide/coc.nvim'
 Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-commentary'
-Plug 'preservim/nerdtree'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
@@ -438,5 +428,12 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-sensible'
 call plug#end()
+
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+
+" https://vi.stackexchange.com/a/19369/47788
+let g:tex_conceal=""
 
