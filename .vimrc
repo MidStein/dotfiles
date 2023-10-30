@@ -451,3 +451,7 @@ autocmd BufNewFile,BufRead *.view.php set ft=html
 
 " https://github.com/vim-airline/vim-airline-themes#using-a-theme
 let g:airline_theme = 'light'
+
+" https://github.com/neoclide/coc-prettier#create-custom-vim-command
+command! Prettier :CocCommand prettier.forceFormatDocument
+
