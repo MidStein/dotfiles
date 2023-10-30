@@ -431,13 +431,16 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-abolish'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 
 " https://vi.stackexchange.com/a/19369/47788
-let g:tex_conceal=""
+let g:tex_conceal = ""
 " https://github.com/kien/ctrlp.vim#basic-options
 let g:ctrlp_map = '<c-e>'
 
+" https://github.com/vim-airline/vim-airline-themes#using-a-theme
+let g:airline_theme = 'light'
