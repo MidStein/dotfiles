@@ -75,7 +75,8 @@ endfunction
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+  " inoremap <silent><expr> <c-@> coc#refresh()
+  inoremap <silent><expr> <c-@> coc#pum#confirm()
 endif
 
 " Use `[g` and `]g` to navigate diagnostics
@@ -214,6 +215,7 @@ let g:coc_global_extensions = [
   \ 'coc-pyright',
   \ 'coc-sh',
   \ 'coc-snippets',
+  \ 'coc-spell-checker',
   \ 'coc-svg',
   \ 'coc-texlab',
   \ 'coc-tsserver',
