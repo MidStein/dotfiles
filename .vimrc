@@ -439,8 +439,15 @@ let g:netrw_liststyle = 3
 
 " https://vi.stackexchange.com/a/19369/47788
 let g:tex_conceal = ""
+
 " https://github.com/kien/ctrlp.vim#basic-options
 let g:ctrlp_map = '<c-e>'
+
+let g:netrw_preview = 1
+let g:netrw_alto = 0
+
+" https://stackoverflow.com/a/28117335/16328664
+autocmd BufNewFile,BufRead *.view.php set ft=html
 
 " https://github.com/vim-airline/vim-airline-themes#using-a-theme
 let g:airline_theme = 'light'
