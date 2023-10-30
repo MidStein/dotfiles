@@ -429,7 +429,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-abolish'
 call plug#end()
 
 let g:netrw_banner = 0
