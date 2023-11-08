@@ -92,7 +92,7 @@ fi
 # some more ls aliases
 alias ll='ls -AlFh'
 alias la='ls -AF'
-alias l='ls -CF'
+alias l='ls -F'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

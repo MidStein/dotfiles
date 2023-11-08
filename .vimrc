@@ -455,3 +455,6 @@ let g:airline_theme = 'light'
 " https://github.com/neoclide/coc-prettier#create-custom-vim-command
 command! Prettier :CocCommand prettier.forceFormatDocument
 
+" https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
+let g:netrw_winsize = 15
+
