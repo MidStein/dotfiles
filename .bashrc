@@ -156,7 +156,7 @@ export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 # https://stackoverflow.com/a/36726662/16328664
 # https://stackoverflow.com/a/6451487/16328664
-export LESS="$LESS -R -Q -i -F"
+export LESS="$LESS -FiQR"
 
 # default had hard to see white text
 # https://github.com/sharkdp/bat#highlighting-theme
