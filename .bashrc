@@ -130,7 +130,7 @@ fi
 # https://github.com/magicmonty/bash-git-prompt#installation
 if [ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]; then
   GIT_PROMPT_ONLY_IN_REPO=1
-  source $HOME/clone/bash-git-prompt/gitprompt.sh
+  source "$HOME/clone/bash-git-prompt/gitprompt.sh"
 fi
 
 export NVM_DIR="$HOME/.nvm"
@@ -147,7 +147,7 @@ if [[ $(uname -s) != MINGW64_NT* ]]; then
 fi
 PS1=${PS1%?}\n'$ '
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+source /usr/share/doc/fzf/examples/key-bindings.bash
 
 # automatically added when installing rust
 . "$HOME/.cargo/env"
@@ -156,7 +156,7 @@ export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 # https://stackoverflow.com/a/36726662/16328664
 # https://stackoverflow.com/a/6451487/16328664
-export LESS="$LESS -FiQR"
+export LESS='FiQR'
 
 # default had hard to see white text
 # https://github.com/sharkdp/bat#highlighting-theme
@@ -165,9 +165,6 @@ export BAT_THEME="Solarized (light)"
 export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
 
 eval "$(zoxide init bash)"
-
-eval "$(mcfly init bash)"
-export MCFLY_RESULTS_SORT=LAST_RUN
 
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
