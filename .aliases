@@ -4,3 +4,8 @@ alias rm='rm -I'
 alias ..='cd ..'
 alias gs='git status'
 
+alias clip='xclip -selection clipboard'
+alias open='xdg-open'
+alias my-sql-pagered="mysql -u deepak --pager='less -FinSX' -p"
+alias chrome='google-chrome'
+
