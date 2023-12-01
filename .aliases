@@ -8,4 +8,5 @@ alias clip='xclip -selection clipboard'
 alias open='xdg-open'
 alias my-sql-pagered="mysql -u deepak --pager='less -FinSX' -p"
 alias chrome='google-chrome'
+alias battery='upower -i /org/freedesktop/UPower/devices/battery_BAT0'
 
