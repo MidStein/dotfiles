@@ -418,6 +418,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim'
+Plug 'skywind3000/asyncrun.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -446,6 +447,11 @@ command! Prettier :CocCommand prettier.forceFormatDocument
 
 " https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
 let g:netrw_winsize = 15
+
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_working_path_mode = 'w'
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_mruf_max = 0
 
 nmap <leader><leader>a :wa \| mks! \| qa!<CR>
 
