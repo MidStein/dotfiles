@@ -453,5 +453,7 @@ let g:ctrlp_working_path_mode = 'w'
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_mruf_max = 0
 
+set term=xterm-256color
+
 nmap <leader><leader>a :wa \| mks! \| qa!<CR>
 
