@@ -1,6 +1,9 @@
-# https://github.com/Kharacternyk/dotcommon
 alias mv='mv -i'
 alias rm='rm -I'
 alias ..='cd ..'
 alias gs='git status'
+
+alias ssh-addgent='eval `ssh-agent`; ssh-add'
+alias my-sql-pagered="mysql -u deepak --pager='less -FinSX' -p"
+alias cp='cp -i'
 
