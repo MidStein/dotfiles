@@ -32,7 +32,6 @@ set scrolloff=5
 set softtabstop=2
 set shiftwidth=2
 set nowrap
-set showmatch
 
 " https://github.com/neoclide/coc.nvim (160)
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
@@ -198,30 +197,24 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 let g:coc_global_extensions = [
-  \ 'coc-blade',
   \ 'coc-clangd',
   \ 'coc-css',
   \ 'coc-docker',
   \ 'coc-emmet',
   \ 'coc-eslint',
   \ 'coc-html',
-  \ '@yaegassy/coc-intelephense',
   \ 'coc-java',
   \ 'coc-json',
-  \ '@yaegassy/coc-laravel',
   \ 'coc-markdownlint',
   \ 'coc-pairs',
   \ 'coc-prettier',
   \ 'coc-pyright',
+  \ 'coc-rust-analyzer',
   \ 'coc-sh',
-  \ 'coc-snippets',
   \ 'coc-spell-checker',
-  \ 'coc-svg',
   \ 'coc-texlab',
   \ 'coc-tsserver',
   \ 'coc-vimlsp',
-  \ 'coc-xml',
-  \ 'coc-yaml',
   \]
 
 " https://github.com/vim-airline/vim-airline/issues/1786
@@ -419,19 +412,19 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin()
-Plug 'neoclide/coc.nvim'
-Plug 'Yggdroot/indentLine'
-Plug 'tpope/vim-commentary'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-surround'
-Plug 'mattn/emmet-vim'
-Plug 'vim-airline/vim-airline'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'mattn/emmet-vim'
+Plug 'neoclide/coc.nvim'
 Plug 'tpope/vim-abolish'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'Yggdroot/indentLine'
 call plug#end()
 
 let g:netrw_banner = 0
@@ -446,9 +439,6 @@ let g:ctrlp_map = '<c-e>'
 let g:netrw_preview = 1
 let g:netrw_alto = 0
 
-" https://stackoverflow.com/a/28117335/16328664
-autocmd BufNewFile,BufRead *.view.php set ft=html
-
 " https://github.com/vim-airline/vim-airline-themes#using-a-theme
 let g:airline_theme = 'light'
 
@@ -457,4 +447,6 @@ command! Prettier :CocCommand prettier.forceFormatDocument
 
 " https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
 let g:netrw_winsize = 15
+
+nmap <leader><leader>a :wa \| mks! \| qa!<CR>
 
