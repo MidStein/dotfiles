@@ -17,11 +17,11 @@ vim.opt.scrolloff = 5
 vim.opt.signcolumn = 'yes'
 vim.opt.background = 'light'
 
-vim.opt.path:append '**'
-vim.opt.nrformats:append 'unsigned'
-
 vim.opt.foldopen:remove 'block'
 vim.opt.nrformats:remove 'octal'
+
+vim.opt.nrformats:append 'unsigned'
+vim.opt.path:append '**'
 
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
@@ -157,6 +157,8 @@ local languageServers = {
   'bashls',
   'clangd',
   'cssls',
+  'docker_compose_language_service',
+  'dockerls',
   'emmet_language_server',
   'eslint',
   'html',
@@ -167,6 +169,7 @@ local languageServers = {
   'texlab',
   'typos_lsp',
   -- 'tsserver',
+  -- 'yamlls'
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -191,11 +194,17 @@ lspconfig.lua_ls.setup({
 
 lspconfig.tsserver.setup({
   capabilities = capabilities,
-  -- init_options = {
-  --   preferences = {
-  --     disableSuggestions = true,
-  --   },
-  -- },
+})
+
+lspconfig.yamlls.setup({
+  capabilities = capabilities,
+  settings = {
+    redhat = {
+      telemetry = {
+        enabled = false
+      }
+    }
+  }
 })
 
 

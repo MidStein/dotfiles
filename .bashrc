@@ -80,6 +80,8 @@ set +o histexpand
 
 source /usr/share/doc/fzf/examples/key-bindings.bash
 eval "$(zoxide init bash)"
+# shellcheck source=/dev/null
+source <(kubectl completion bash)
 
 if [ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]; then
   GIT_PROMPT_ONLY_IN_REPO=1
