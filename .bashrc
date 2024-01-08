@@ -1,6 +1,6 @@
 case $- in
   *i*) ;;
-    *) return;;
+  *) return;;
 esac
 
 HISTCONTROL=ignoreboth
@@ -15,8 +15,8 @@ shopt -s checkwinsize
 [[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
 
 if [[ -x /usr/bin/dircolors ]]; then
-  if [[ -r ~/.dircolors ]]; then
-    eval "$(dircolors -b ~/.dircolors)"
+  if [[ -r "$HOME/.dircolors" ]]; then
+    eval "$(dircolors -b "$HOME/.dircolors")"
   else
     eval "$(dircolors -b)"
   fi
@@ -32,22 +32,21 @@ fi
 
 if ! shopt -oq posix; then
   if [[ -f /usr/share/bash-completion/bash_completion ]]; then
-    . /usr/share/bash-completion/bash_completion
+    source /usr/share/bash-completion/bash_completion
   elif [[ -f /etc/bash_completion ]]; then
-    . /etc/bash_completion
+    source /etc/bash_completion
   fi
 fi
 
 
 export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
-[[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
+[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
 # shellcheck source=/dev/null
-[[ -s "$NVM_DIR/bash_completion" ]] && . "$NVM_DIR/bash_completion"
-
+[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
 
 # shellcheck source=/dev/null
-[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -60,29 +59,28 @@ export EDITOR=nvim
 export SYSTEMD_EDITOR=nvim
 
 export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
-export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 export PATH="$HOME/clone/language-servers/dart-sass:$PATH"
 export PATH="$HOME/clone/language-servers/lua-language-server-3.7.3/bin:$PATH"
 export PATH="$HOME/clone/language-servers/clangd_17.0.3/bin:$PATH"
 
 export LESS='FiQR'
+
 export BAT_THEME="Solarized (light)"
-
-# shellcheck source=/dev/null
-[[ -f ~/.aliases ]] && source ~/.aliases
-
-PS1='\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+export GIT_PROMPT_THEME=Solarized
 
 set +o histexpand
 
-[[ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]] && source "/usr/share/doc/fzf/examples/key-bindings.bash"
+# shellcheck source=/dev/null
+[[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
-hash zoxide && eval "$(zoxide init bash)"
+[[ -f /usr/share/doc/fzf/examples/key-bindings.bash ]] && source "/usr/share/doc/fzf/examples/key-bindings.bash"
+
+# shellcheck source=/dev/null
+[[ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]] && source "$HOME/clone/bash-git-prompt/gitprompt.sh"
 
 # shellcheck source=/dev/null
 hash kubectl && source <(kubectl completion bash)
 
-# shellcheck source=/dev/null
-[[ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]] && source "$HOME/clone/bash-git-prompt/gitprompt.sh"
+hash zoxide && eval "$(zoxide init bash)"
 
