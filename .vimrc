@@ -28,7 +28,6 @@ set scrolloff=5
 
 set mouse=a
 set encoding=utf-8
-set term=xterm-256color
 set backspace=indent,eol,start
 
 set foldopen-=block
@@ -42,15 +41,6 @@ let g:netrw_liststyle = 3
 let g:netrw_preview = 1
 let g:netrw_alto = 0
 let g:netrw_winsize = 15
-
-
-let s:clip = '/mnt/c/Windows/System32/clip.exe'
-if executable(s:clip)
-  augroup WSLYank
-    autocmd!
-    autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
-  augroup END
-endif
 
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'

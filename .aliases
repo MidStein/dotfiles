@@ -3,8 +3,6 @@ alias rm='rm -I'
 alias ..='cd ..'
 alias gs='git status'
 
-alias clip='/mnt/c/Windows/System32/clip.exe'
 alias ssh-addgent='eval `ssh-agent`; ssh-add'
-alias my-sql-pagered="mysql -u deepak --pager='less -FinSX' -p"
 alias cp='cp -i'
 
