@@ -67,7 +67,6 @@ export PATH="$HOME/clone/language-servers/clangd_17.0.3/bin:$PATH"
 export LESS='FiQR'
 
 export BAT_THEME="Solarized (light)"
-export GIT_PROMPT_THEME=Solarized
 
 set +o histexpand
 
