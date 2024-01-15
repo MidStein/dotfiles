@@ -159,6 +159,7 @@ local languageServers = {
   'cssls',
   'docker_compose_language_service',
   'dockerls',
+  -- 'efm',
   'emmet_language_server',
   'eslint',
   'html',
@@ -180,6 +181,26 @@ for _, server in ipairs(languageServers) do
     capabilities = capabilities
   })
 end
+
+lspconfig.efm.setup({
+  init_options = { documentFormatting = true },
+  settings = {
+    languages = {
+      css = {
+        {
+          formatCommand = './node_modules/.bin/prettier',
+          formatStdin = true
+        }
+      },
+      html = {
+        {
+          formatCommand = './node_modules/.bin/prettier',
+          formatStdin = true
+        }
+      }
+    }
+  }
+})
 
 lspconfig.lua_ls.setup({
   capabilities = capabilities,
