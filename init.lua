@@ -275,8 +275,9 @@ vim.g.gruvbox_material_foreground = 'original'
 vim.g.gruvbox_material_better_performance = 1
 vim.cmd('colorscheme gruvbox-material')
 
-
-vim.keymap.set('n', '<Leader><Leader>a', ':wa | mks! | qa!<CR>', { desc = 'Save changes, make session and close' })
+vim.keymap.set('n', '<Leader><Leader>a',
+  ':wa | mks! ~/.local/share/nvim/sessions/' .. vim.fn.substitute(vim.fn.getcwd(), '/', '_', 'g') .. ' | qa!<CR>',
+  { desc = 'sessions' })
 vim.keymap.set('n', '<Leader><Leader>b', ':=vim.diagnostic.setqflist()<CR>',
   { desc = 'Put diagnostics in quickfix window' })
 
