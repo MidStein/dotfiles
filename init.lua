@@ -10,6 +10,7 @@ vim.opt.termguicolors = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.wildignorecase = true
+vim.opt.undofile = true
 
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 5
@@ -67,6 +68,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
 
 Plug('nvim-treesitter/nvim-treesitter', {
@@ -75,8 +77,8 @@ Plug('nvim-treesitter/nvim-treesitter', {
   end
 })
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug('L3MON4D3/LuaSnip', {
   tag = 'v2.*',
@@ -100,6 +102,7 @@ vim.g.ctrlp_show_hidden = 1
 vim.g.ctrlp_working_path_mode = 'w'
 vim.g.ctrlp_cmd = 'CtrlPMixed'
 vim.g.ctrlp_mruf_max = 0
+vim.g.ctrlp_custom_ignore = ".git$"
 
 
 require('nvim-treesitter.configs').setup {
@@ -188,14 +191,23 @@ lspconfig.efm.setup({
     languages = {
       css = {
         {
-          formatCommand = './node_modules/.bin/prettier',
+          formatCommand = './node_modules/.bin/prettier --stdin-filepath ${INPUT}',
           formatStdin = true
         }
       },
       html = {
         {
-          formatCommand = './node_modules/.bin/prettier',
+          formatCommand = './node_modules/.bin/prettier --stdin-filepath ${INPUT}',
           formatStdin = true
+        }
+      },
+      markdown = {
+        {
+          lintCommand = 'markdownlint -s',
+          lintStdin = true,
+          lintFormats = {
+            '%f:%l:%c %m'
+          }
         }
       }
     }
@@ -231,17 +243,44 @@ lspconfig.yamlls.setup({
 
 local cmp = require('cmp')
 
+local luasnip = require('luasnip')
+
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 cmp.setup({
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      luasnip.lsp_expand(args.body)
     end,
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-Space>'] = cmp.mapping.confirm({ select = true }),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_locally_jumpable() then
+        luasnip.expand_or_jump()
+      elseif has_words_before() then
+        cmp.complete()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" })
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -271,20 +310,23 @@ cmp.event:on(
 
 require('luasnip.loaders.from_vscode').lazy_load()
 
+
 vim.g.gruvbox_material_foreground = 'original'
 vim.g.gruvbox_material_better_performance = 1
 vim.cmd('colorscheme gruvbox-material')
 
-vim.keymap.set('n', '<Leader><Leader>a',
-  ':wa | mks! ~/.local/share/nvim/sessions/' .. vim.fn.substitute(vim.fn.getcwd(), '/', '_', 'g') .. ' | qa!<CR>',
-  { desc = 'sessions' })
+
+vim.keymap.set('n', '<Leader><Leader>a', ':wa | mks! | qa!<CR>', { desc = 'Save files and make session' })
 vim.keymap.set('n', '<Leader><Leader>b', ':=vim.diagnostic.setqflist()<CR>',
   { desc = 'Put diagnostics in quickfix window' })
+vim.keymap.set('n', '<Leader><Leader>c', ':w | Make<CR>', { desc = 'Asynchronous Make' })
 
 vim.keymap.set('n', '<leader><leader>z', ':e ~/.config/nvim/init.lua<CR>', { desc = 'Open init file' })
 vim.keymap.set('n', '<leader><leader>y', ':e +$ ~/keep/notes.md<CR>', { desc = 'Open notes file' })
 vim.keymap.set('n', '<leader><leader>x', ':e ~/temp.txt<CR>', { desc = 'Open temporary text file' })
 vim.keymap.set('n', '<leader><leader>w', ':e ~/keep/active-lists.md<CR>', { desc = 'Open lists file' })
 vim.keymap.set('n', '<leader><leader>v', ':e ~/.bashrc<CR>', { desc = 'Open .bashrc' })
-vim.keymap.set('n', '<leader><leader>u', ':e ~/scripts/tmux.sh<CR>', { desc = 'Open tmux script' })
+vim.keymap.set('n', '<leader><leader>u', ':e ~/scripts/tmux.bash<CR>', { desc = 'Open tmux script' })
+vim.keymap.set('n', '<leader><leader>t', ':e ~/scripts/project-scripts.bash<CR>', { desc = 'Open project scripts file' })
+vim.keymap.set('n', '<leader><leader>s', ':e ~/keep/college.md<CR>', { desc = 'Open college markdown file' })
 
