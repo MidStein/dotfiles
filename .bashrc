@@ -57,14 +57,14 @@ export XDG_CONFIG_DIRS="/etc/xdg"
 
 export EDITOR=nvim
 export SYSTEMD_EDITOR=nvim
+export LESS='FiQR'
+
 
 export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
 
 export PATH="$HOME/clone/language-servers/dart-sass:$PATH"
 export PATH="$HOME/clone/language-servers/lua-language-server-3.7.3/bin:$PATH"
 export PATH="$HOME/clone/language-servers/clangd_17.0.3/bin:$PATH"
-
-export LESS='FiQR'
 
 export BAT_THEME="Solarized (light)"
 
