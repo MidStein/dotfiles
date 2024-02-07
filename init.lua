@@ -16,8 +16,9 @@ vim.opt.wildignorecase = true
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 5
 
-vim.opt.signcolumn = 'yes'
 vim.opt.background = 'light'
+vim.opt.colorcolumn = '80'
+vim.opt.signcolumn = 'yes'
 
 vim.opt.foldopen:remove 'block'
 vim.opt.nrformats:remove 'octal'
