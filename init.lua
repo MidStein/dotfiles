@@ -1,16 +1,17 @@
 vim.opt.wrap = false
 
+vim.opt.expandtab = true
+vim.opt.exrc = true
+vim.opt.ignorecase = true
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.visualbell = true
-vim.opt.expandtab = true
-vim.opt.termguicolors = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.wildignorecase = true
+vim.opt.termguicolors = true
 vim.opt.undofile = true
+vim.opt.visualbell = true
+vim.opt.wildignorecase = true
 
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 5
@@ -23,6 +24,7 @@ vim.opt.nrformats:remove 'octal'
 
 vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
+vim.opt.wildignore:append '*/.git'
 
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
