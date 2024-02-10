@@ -1,13 +1,14 @@
 alias mv='mv -i'
 alias rm='rm -I'
+alias cp='cp -i'
+
 alias ..='cd ..'
 alias gs='git status'
 
 alias clip='xclip -selection clipboard'
 alias ssh-addgent='eval `ssh-agent`; ssh-add'
 alias open='xdg-open'
-alias my-sql-pagered="mysql -u deepak --pager='less -FinSX' -p"
+alias my-sql-pagered="mysql -u $USER --pager='less -FinSX' -p"
 alias chrome='google-chrome'
 alias battery='upower -i /org/freedesktop/UPower/devices/battery_BAT0'
-alias cp='cp -i'
 
