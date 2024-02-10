@@ -57,7 +57,8 @@ repo](https://github.com/MidStein/scripts) to see how I set it up.
 - Options that take numerical arguments
 - Options that take an empty string argument
 - Options that take string arguments
-- Use tmux-yank for copying from the tmux to system
+- Use [tmux-yank](https://github.com/tmux-plugins/tmux-yank) for copying from
+  the tmux to system
 - Custom bindings
 
 ## init.lua

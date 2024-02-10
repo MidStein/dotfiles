@@ -81,8 +81,6 @@ Plug('nvim-treesitter/nvim-treesitter', {
 })
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'saadparwaiz1/cmp_luasnip'
 Plug('L3MON4D3/LuaSnip', {
   tag = 'v2.*',
   ['do'] = function()
@@ -96,6 +94,11 @@ Plug 'windwp/nvim-autopairs'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+Plug 'hrsh7th/cmp-path'
+Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'sainnhe/gruvbox-material'
 vim.call('plug#end')
 
@@ -105,7 +108,6 @@ vim.g.ctrlp_show_hidden = 1
 vim.g.ctrlp_working_path_mode = 'w'
 vim.g.ctrlp_cmd = 'CtrlPMixed'
 vim.g.ctrlp_mruf_max = 0
-vim.g.ctrlp_custom_ignore = ".git$"
 
 
 require('nvim-treesitter.configs').setup {
@@ -175,7 +177,7 @@ local languageServers = {
   'rust_analyzer',
   'texlab',
   'typos_lsp',
-  -- 'tsserver',
+  'tsserver',
   -- 'yamlls'
 }
 
@@ -183,12 +185,12 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 for _, server in ipairs(languageServers) do
-  lspconfig[server].setup({
+  lspconfig[server].setup {
     capabilities = capabilities
-  })
+  }
 end
 
-lspconfig.efm.setup({
+lspconfig.efm.setup {
   init_options = { documentFormatting = true },
   settings = {
     languages = {
@@ -215,9 +217,9 @@ lspconfig.efm.setup({
       }
     }
   }
-})
+}
 
-lspconfig.lua_ls.setup({
+lspconfig.lua_ls.setup {
   capabilities = capabilities,
   settings = {
     Lua = {
@@ -226,13 +228,9 @@ lspconfig.lua_ls.setup({
       }
     }
   }
-})
+}
 
-lspconfig.tsserver.setup({
-  capabilities = capabilities,
-})
-
-lspconfig.yamlls.setup({
+lspconfig.yamlls.setup {
   capabilities = capabilities,
   settings = {
     redhat = {
@@ -241,10 +239,25 @@ lspconfig.yamlls.setup({
       }
     }
   }
-})
+}
 
 
 local cmp = require('cmp')
+
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  })
+})
+
 
 local luasnip = require('luasnip')
 
@@ -254,7 +267,7 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-cmp.setup({
+cmp.setup {
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -287,22 +300,23 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'luasnip' }
+    { name = 'luasnip' },
+    { name = 'nvim_lsp_signature_help' }
   })
-})
+}
 
 
-require('lualine').setup({
+require('lualine').setup {
   options = {
     theme = 'gruvbox_light'
   }
-})
+}
 
 require('ibl').setup {}
 
-require('Comment').setup({
+require('Comment').setup {
   ignore = '^$'
-})
+}
 
 require('nvim-autopairs').setup {}
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
@@ -313,23 +327,128 @@ cmp.event:on(
 
 require('luasnip.loaders.from_vscode').lazy_load()
 
+local treesitter_textobjects = require 'nvim-treesitter.configs'
+
+treesitter_textobjects.setup {
+  textobjects = {
+    select = {
+      enable = true,
+
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+        ["as"] = "@scope",
+      },
+      -- You can choose the select mode (default is charwise 'v')
+      --
+      -- Can also be a function which gets passed a table with the keys
+      -- * query_string: eg '@function.inner'
+      -- * method: eg 'v' or 'o'
+      -- and should return the mode ('v', 'V', or '<c-v>') or a table
+      -- mapping query_strings to modes.
+      selection_modes = {
+        ['@parameter.outer'] = 'v', -- charwise
+        ['@function.outer'] = 'V',  -- linewise
+        ['@class.outer'] = '<c-v>', -- blockwise
+      },
+      -- If you set this to `true` (default is `false`) then any textobject is
+      -- extended to include preceding or succeeding whitespace. Succeeding
+      -- whitespace has priority in order to act similarly to eg the built-in
+      -- `ap`.
+      --
+      -- Can also be a function which gets passed a table with the keys
+      -- * query_string: eg '@function.inner'
+      -- * selection_mode: eg 'v'
+      -- and should return true of false
+      include_surrounding_whitespace = true,
+    },
+  },
+}
+
+treesitter_textobjects.setup {
+  textobjects = {
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>a"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["<leader>A"] = "@parameter.inner",
+      },
+    },
+  },
+}
+
+treesitter_textobjects.setup {
+  textobjects = {
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = { query = "@class.outer", desc = "Next class start" },
+        --
+        -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queries.
+        ["]o"] = "@loop.*",
+        -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
+        --
+        -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+        -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+        ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+        ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+    },
+  },
+}
+
+treesitter_textobjects.setup {
+  textobjects = {
+    lsp_interop = {
+      enable = true,
+      border = 'none',
+      floating_preview_opts = {},
+      peek_definition_code = {
+        ["<leader>df"] = "@function.outer",
+        ["<leader>dF"] = "@class.outer",
+      },
+    },
+  },
+}
 
 vim.g.gruvbox_material_foreground = 'original'
 vim.g.gruvbox_material_better_performance = 1
 vim.cmd('colorscheme gruvbox-material')
 
+vim.keymap.set('n', '?', '?\\v')
+vim.keymap.set('n', '/', '/\\v')
+vim.keymap.set('c', '%s/', '%sm/')
 
-vim.keymap.set('n', '<Leader><Leader>a', ':wa | mks! | qa!<CR>', { desc = 'Save files and make session' })
-vim.keymap.set('n', '<Leader><Leader>b', ':=vim.diagnostic.setqflist()<CR>',
+vim.keymap.set('n', '<leader><leader>a', ':wa | mks! | qa!<CR>', { desc = 'Save files and make session' })
+vim.keymap.set('n', '<leader><leader>b', ':= vim.diagnostic.setqflist()<CR>',
   { desc = 'Put diagnostics in quickfix window' })
-vim.keymap.set('n', '<Leader><Leader>c', ':w | Make<CR>', { desc = 'Asynchronous Make' })
+vim.keymap.set('n', '<leader><leader>c', ':w | Make<CR>', { desc = 'Asynchronous Make' })
+vim.keymap.set('n', '<leader><leader>d', 'F<Space>s<CR>', { desc = 'Put line below after space' })
 
-vim.keymap.set('n', '<leader><leader>z', ':e ~/.config/nvim/init.lua<CR>', { desc = 'Open init file' })
-vim.keymap.set('n', '<leader><leader>y', ':e +$ ~/keep/notes.md<CR>', { desc = 'Open notes file' })
-vim.keymap.set('n', '<leader><leader>x', ':e ~/temp.txt<CR>', { desc = 'Open temporary text file' })
-vim.keymap.set('n', '<leader><leader>w', ':e ~/keep/active-lists.md<CR>', { desc = 'Open lists file' })
-vim.keymap.set('n', '<leader><leader>v', ':e ~/.bashrc<CR>', { desc = 'Open .bashrc' })
-vim.keymap.set('n', '<leader><leader>u', ':e ~/scripts/tmux.bash<CR>', { desc = 'Open tmux script' })
-vim.keymap.set('n', '<leader><leader>t', ':e ~/scripts/project-scripts.bash<CR>', { desc = 'Open project scripts file' })
-vim.keymap.set('n', '<leader><leader>s', ':e ~/keep/college.md<CR>', { desc = 'Open college markdown file' })
-
+vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>', { desc = 'init.lua' })
+vim.keymap.set('n', '<leader>f2', ':e +$ ~/keep/notes.md<CR>', { desc = 'notes.md' })
+vim.keymap.set('n', '<leader>f3', ':e ~/temp.txt<CR>', { desc = 'temp.txt' })
+vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>', { desc = 'lists.md' })
+vim.keymap.set('n', '<leader>f5', ':e ~/keep/college.md<CR>', { desc = 'college' })
