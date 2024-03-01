@@ -73,10 +73,12 @@ set +o histexpand
 # shellcheck source=/dev/null
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
-[[ -f /usr/share/doc/fzf/examples/key-bindings.bash ]] && source "/usr/share/doc/fzf/examples/key-bindings.bash"
+[[ -f /usr/share/doc/fzf/examples/key-bindings.bash ]] && \
+  source "/usr/share/doc/fzf/examples/key-bindings.bash"
 
 # shellcheck source=/dev/null
-[[ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]] && source "$HOME/clone/bash-git-prompt/gitprompt.sh"
+[[ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]] && \
+  source "$HOME/clone/bash-git-prompt/gitprompt.sh"
 
 # shellcheck source=/dev/null
 hash kubectl && source <(kubectl completion bash)
