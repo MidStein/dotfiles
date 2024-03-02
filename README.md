@@ -19,7 +19,7 @@ That's why I put them on version control.
 
 - Safety. Prevent accidental loss of data when using `mv`, `cp` or `rm`
 - Frequent use in short bursts. `..=cd ..` and `gs=git status`
-- Periodic use. `ssh-addgent`
+- Periodic use. ssh-addgent='eval \`ssh-agent\`; ssh-add'
 - Too long
 
 ## .bashrc
@@ -65,7 +65,7 @@ repo](https://github.com/MidStein/scripts) to see how I set it up.
 
 Initialization file for [NeoVim](https://neovim.io/): the hyperextensible
 editor. This one changes the most often because I add/modify/remove
-plugins/language servers/key mappings often.
+plugins/language servers/key mappings.
 
 ### Order of contents
 
@@ -85,9 +85,7 @@ plugins/language servers/key mappings often.
   - Setups for [top lua plugins](https://dotfyle.com/neovim/plugins/top).
     Includes keybinds and language servers list
   - Setups for other lua plugins
-- Custom mappings. I use two &lt;Leader&gt; keys and an alphabet key. Bindings
-  that use characters from the end of the alphabet are for opening files that I
-  edit very often
+- Custom mappings.
 
 ---
 

@@ -35,7 +35,6 @@ export PATH="$HOME/clone/language-servers/dart-sass:$PATH"
 export PATH="$HOME/clone/language-servers/lua-language-server-3.7.3/bin:$PATH"
 export PATH="$HOME/clone/language-servers/clangd_17.0.3/bin:$PATH"
 
-
 export BAT_THEME="Solarized (light)"
 
 set +o histexpand
@@ -43,10 +42,15 @@ set +o histexpand
 # shellcheck source=/dev/null
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
-[[ -f /usr/share/fzf/shell/key-bindings.bash ]] && source "/usr/share/fzf/shell/key-bindings.bash"
+[[ -f /usr/share/fzf/shell/key-bindings.bash ]] && \
+  source "/usr/share/fzf/shell/key-bindings.bash"
 
 # shellcheck source=/dev/null
-[[ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]] && source "$HOME/clone/bash-git-prompt/gitprompt.sh"
+[[ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]] && \
+  source "$HOME/clone/bash-git-prompt/gitprompt.sh"
+
+# shellcheck source=/dev/null
+[[ -f "/home/deepak/.ghcup/env" ]] && source "/home/deepak/.ghcup/env"
 
 # shellcheck source=/dev/null
 hash kubectl && source <(kubectl completion bash)

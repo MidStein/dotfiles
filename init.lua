@@ -13,6 +13,7 @@ vim.opt.undofile = true
 vim.opt.visualbell = true
 vim.opt.wildignorecase = true
 
+vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 5
 
@@ -26,9 +27,8 @@ vim.opt.nrformats:remove 'octal'
 vim.opt.clipboard:append 'unnamedplus'
 vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
-vim.opt.wildignore:append '*/.git'
+vim.opt.wildignore:append '.git,node_modules'
 
-vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
 vim.g.netrw_preview = 1
 vim.g.netrw_alto = 0
@@ -42,7 +42,9 @@ else
 end
 if vim.fn.empty(vim.fn.glob(data_dir .. '/autoload/plug.vim')) == 1 then
   vim.cmd('silent execute "!curl -fLo ' ..
-    data_dir .. '/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"')
+    data_dir ..
+    '/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"')
   vim.api.nvim_create_autocmd('VimEnter', {
     pattern = '*',
     vim.cmd('PlugInstall --sync | source $MYVIMRC')
@@ -96,7 +98,8 @@ vim.g.ctrlp_mruf_max = 0
 
 
 require('nvim-treesitter.configs').setup {
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+  ensure_installed =
+    { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
   auto_install = true,
   highlight = {
     enable = true,
@@ -155,6 +158,7 @@ local languageServers = {
   -- 'efm',
   'emmet_language_server',
   'eslint',
+  'hls',
   'html',
   'jsonls',
   -- 'lua_ls',
@@ -163,7 +167,7 @@ local languageServers = {
   'texlab',
   'typos_lsp',
   'tsserver',
-  -- 'yamlls'
+  'yamlls'
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -181,13 +185,15 @@ lspconfig.efm.setup {
     languages = {
       css = {
         {
-          formatCommand = './node_modules/.bin/prettier --stdin-filepath ${INPUT}',
+          formatCommand =
+            './node_modules/.bin/prettier --stdin-filepath ${INPUT}',
           formatStdin = true
         }
       },
       html = {
         {
-          formatCommand = './node_modules/.bin/prettier --stdin-filepath ${INPUT}',
+          formatCommand =
+            './node_modules/.bin/prettier --stdin-filepath ${INPUT}',
           formatStdin = true
         }
       },
@@ -215,31 +221,13 @@ lspconfig.lua_ls.setup {
   }
 }
 
-lspconfig.yamlls.setup {
-  capabilities = capabilities,
-  settings = {
-    redhat = {
-      telemetry = {
-        enabled = false
-      }
-    }
-  }
-}
-
 
 local cmp = require('cmp')
 
-cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
-
 cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
-    { name = 'path' }
+    { name = 'path' },
+    { name = 'cmdline' }
   })
 })
 
@@ -249,7 +237,9 @@ local luasnip = require('luasnip')
 local has_words_before = function()
   unpack = unpack or table.unpack
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
+    :sub(col, col)
+    :match("%s") == nil
 end
 
 cmp.setup {
@@ -286,7 +276,8 @@ cmp.setup {
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'nvim_lsp_signature_help' }
+    { name = 'nvim_lsp_signature_help' },
+    { name = 'path' }
   })
 }
 
@@ -379,13 +370,17 @@ treesitter_textobjects.setup {
         ["]m"] = "@function.outer",
         ["]]"] = { query = "@class.outer", desc = "Next class start" },
         --
-        -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queries.
+        -- You can use regex matching (i.e. lua pattern) and/or pass a list in
+        -- a "query" key to group multiple queries.
         ["]o"] = "@loop.*",
         -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
         --
-        -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
-        -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-        ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+        -- You can pass a query group to use query from
+        -- `queries/<lang>/<query_group>.scm file in your runtime path.
+        -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They
+        -- also provide highlights.scm and indent.scm.
+        ["]s"] = { query = "@scope", query_group = "locals",
+          desc = "Next scope" },
         ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
       },
       goto_next_end = {
@@ -422,18 +417,26 @@ vim.g.gruvbox_material_foreground = 'original'
 vim.g.gruvbox_material_better_performance = 1
 vim.cmd('colorscheme gruvbox-material')
 
-vim.keymap.set('n', '?', '?\\v')
-vim.keymap.set('n', '/', '/\\v')
-vim.keymap.set('c', '%s/', '%sm/')
-
-vim.keymap.set('n', '<leader><leader>a', ':wa | mks! | qa!<CR>', { desc = 'Save files and make session' })
+vim.keymap.set('n', '<leader><leader>a', ':wa | mks! | qa!<CR>',
+  { desc = 'Save files and make session' })
 vim.keymap.set('n', '<leader><leader>b', ':= vim.diagnostic.setqflist()<CR>',
   { desc = 'Put diagnostics in quickfix window' })
-vim.keymap.set('n', '<leader><leader>c', ':w | Make<CR>', { desc = 'Asynchronous Make' })
-vim.keymap.set('n', '<leader><leader>d', 'F<Space>s<CR>', { desc = 'Put line below after space' })
+vim.keymap.set('n', '<leader><leader>c', ':w | Make<CR>',
+  { desc = 'Asynchronous Make' })
+vim.keymap.set(
+  'n',
+  '<leader><leader>d',
+  ':= vim.fn.system(Clip, vim.fn.expand("%:p"))<CR>',
+  { desc = 'Copy current buffer filepath to clipboard' }
+)
 
-vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>', { desc = 'init.lua' })
-vim.keymap.set('n', '<leader>f2', ':e +$ ~/keep/notes.md<CR>', { desc = 'notes.md' })
-vim.keymap.set('n', '<leader>f3', ':e ~/temp.txt<CR>', { desc = 'temp.txt' })
-vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>', { desc = 'lists.md' })
-vim.keymap.set('n', '<leader>f5', ':e ~/keep/college.md<CR>', { desc = 'college' })
+vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>',
+  { desc = 'init.lua' })
+vim.keymap.set('n', '<leader>f2', ':e ~/temp.txt<CR>',
+  { desc = 'temp.txt' })
+vim.keymap.set('n', '<leader>f3', ':e +$ ~/keep/notes.md<CR>',
+  { desc = 'notes.md' })
+vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
+  { desc = 'lists.md' })
+vim.keymap.set('n', '<leader>f5', ':e ~/keep/college.md<CR>',
+  { desc = 'college.md' })
