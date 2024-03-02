@@ -1,0 +1,27 @@
+[user]
+  email = deepakchauhan19feb@gmail.com
+  name = MidStein
+[init]
+  defaultBranch = main
+[core]
+  excludesfile = /home/deepak/.gitignore_global
+  pager = delta
+[alias]
+  graph = log --all --graph --decorate --oneline
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  light = true
+  line-numbers = true
+[merge]
+  conflictStyle = diff3
+  tool = nvimdiff
+[diff]
+  colorMoved = default
+  algorithm = histogram
+  tool = nvimdiff
+[commit]
+  verbose = true
+[difftool "nvimdiff"]
+  cmd = nvim -d -c 'wincmd l' -c 'cd "$GIT_PREFIX"' "$LOCAL" "$REMOTE"
