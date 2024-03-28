@@ -60,11 +60,14 @@ export SYSTEMD_EDITOR=nvim
 export LESS='FiQR'
 
 
-export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
+export PATH="$HOME/.local/texlive/2023/bin/x86_64-linux:$PATH"
 
 export PATH="$HOME/clone/language-servers/dart-sass:$PATH"
 export PATH="$HOME/clone/language-servers/lua-language-server-3.7.3/bin:$PATH"
 export PATH="$HOME/clone/language-servers/clangd_17.0.3/bin:$PATH"
+
+export DENO_INSTALL="/home/deepak/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
 
 export BAT_THEME="Solarized (light)"
 
@@ -79,6 +82,9 @@ set +o histexpand
 # shellcheck source=/dev/null
 [[ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]] && \
   source "$HOME/clone/bash-git-prompt/gitprompt.sh"
+
+# shellcheck source=/dev/null
+source <(ng completion script)
 
 # shellcheck source=/dev/null
 hash kubectl && source <(kubectl completion bash)

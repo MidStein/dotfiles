@@ -26,7 +26,7 @@ vim.opt.nrformats:remove 'octal'
 
 vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
-vim.opt.wildignore:append '.git,node_modules'
+vim.opt.wildignore:append '.git,node_modules,.venv,target'
 
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
@@ -57,10 +57,12 @@ else
   data_dir = '~/.vim'
 end
 if vim.fn.empty(vim.fn.glob(data_dir .. '/autoload/plug.vim')) == 1 then
-  vim.cmd('silent execute "!curl -fLo ' ..
+  vim.cmd(
+    'silent execute "!curl -fLo ' ..
     data_dir ..
-    '/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"')
+    '/autoload/plug.vim --create-dirs ' ..
+    'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
+  )
   vim.api.nvim_create_autocmd('VimEnter', {
     pattern = '*',
     vim.cmd('PlugInstall --sync | source $MYVIMRC')
@@ -166,6 +168,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 
 local languageServers = {
+  'angularls',
   'bashls',
   'clangd',
   'cssls',
@@ -179,6 +182,7 @@ local languageServers = {
   -- 'lua_ls',
   'pyright',
   'rust_analyzer',
+  'svelte',
   'texlab',
   'typos_lsp',
   'tsserver',
@@ -443,6 +447,17 @@ vim.keymap.set(
   '<leader><leader>d',
   ':= vim.fn.system(Clip, vim.fn.expand("%:p"))<CR>',
   { desc = 'Copy current buffer filepath to clipboard' }
+)
+vim.keymap.set(
+  'n',
+  '<leader><leader>e',
+  function()
+    local ext = vim.fn.expand('%:e')
+    vim.cmd('vert diffs ~/temp/temp.' .. ext)
+    vim.cmd('norm ggvGp')
+    vim.cmd('wincmd h')
+  end,
+  { desc = 'History diff' }
 )
 
 vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>',
