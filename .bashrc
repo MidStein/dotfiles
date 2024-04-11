@@ -1,45 +1,15 @@
-case $- in
-  *i*) ;;
-  *) return;;
-esac
+#
+# ~/.bashrc
+#
 
-HISTCONTROL=ignoreboth
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
-shopt -s histappend
-
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-shopt -s checkwinsize
-
-[[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
-
-if [[ -x /usr/bin/dircolors ]]; then
-  if [[ -r "$HOME/.dircolors" ]]; then
-    eval "$(dircolors -b "$HOME/.dircolors")"
-  else
-    eval "$(dircolors -b)"
-  fi
-  alias ls='ls --color=auto'
-
-  alias grep='grep --color=auto'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
-fi
-
-#colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-if ! shopt -oq posix; then
-  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
-    source /usr/share/bash-completion/bash_completion
-  elif [[ -f /etc/bash_completion ]]; then
-    source /etc/bash_completion
-  fi
-fi
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
 
 
-export NVM_DIR="$HOME/.nvm"
+export NVM_DIR="$HOME/.config/nvm"
 # shellcheck source=/dev/null
 [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
 # shellcheck source=/dev/null
@@ -59,15 +29,7 @@ export EDITOR=nvim
 export SYSTEMD_EDITOR=nvim
 export LESS='FiQR'
 
-
-export PATH="$HOME/.local/texlive/2023/bin/x86_64-linux:$PATH"
-
-export PATH="$HOME/clone/language-servers/dart-sass:$PATH"
-export PATH="$HOME/clone/language-servers/lua-language-server-3.7.3/bin:$PATH"
-export PATH="$HOME/clone/language-servers/clangd_17.0.3/bin:$PATH"
-
-export DENO_INSTALL="/home/deepak/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 export BAT_THEME="Solarized (light)"
 
@@ -80,14 +42,10 @@ set +o histexpand
   source "/usr/share/doc/fzf/examples/key-bindings.bash"
 
 # shellcheck source=/dev/null
-[[ -f "$HOME/clone/bash-git-prompt/gitprompt.sh" ]] && \
-  source "$HOME/clone/bash-git-prompt/gitprompt.sh"
+[[ -f "$HOME/.local/bash-git-prompt/gitprompt.sh" ]] && \
+  source "$HOME/.local/bash-git-prompt/gitprompt.sh"
 
 # shellcheck source=/dev/null
-source <(ng completion script)
-
-# shellcheck source=/dev/null
-hash kubectl && source <(kubectl completion bash)
+hash ng && source <(ng completion script)
 
 hash zoxide && eval "$(zoxide init bash)"
-

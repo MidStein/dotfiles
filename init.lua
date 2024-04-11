@@ -24,6 +24,7 @@ vim.opt.signcolumn = 'yes'
 vim.opt.foldopen:remove 'block'
 vim.opt.nrformats:remove 'octal'
 
+vim.opt.clipboard:append 'unnamedplus'
 vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
 vim.opt.wildignore:append '.git,node_modules,.venv,target'
@@ -33,21 +34,6 @@ vim.g.netrw_liststyle = 3
 vim.g.netrw_preview = 1
 vim.g.netrw_alto = 0
 vim.g.netrw_winsize = 15
-
-
-Clip = '/mnt/c/Windows/System32/clip.exe'
-if vim.fn.executable(Clip) == 1 then
-  local augroup = vim.api.nvim_create_augroup('WSLYank', { clear = true })
-  vim.api.nvim_create_autocmd('TextYankPost', {
-    pattern = '*',
-    group = augroup,
-    callback = function()
-      if vim.v.event.operator == 'y' then
-        vim.fn.system(Clip, vim.fn.getreg('0'))
-      end
-    end
-  })
-end
 
 
 local data_dir
@@ -86,6 +72,7 @@ Plug('nvim-treesitter/nvim-treesitter', {
 })
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'williamboman/mason.nvim'
 Plug('L3MON4D3/LuaSnip', {
   tag = 'v2.*',
   ['do'] = function()
@@ -105,6 +92,7 @@ Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/cmp-path'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'sainnhe/gruvbox-material'
+Plug 'williamboman/mason-lspconfig.nvim'
 vim.call('plug#end')
 
 
@@ -174,7 +162,6 @@ local languageServers = {
   'cssls',
   'docker_compose_language_service',
   'dockerls',
-  -- 'efm',
   'emmet_language_server',
   'eslint',
   'html',
@@ -198,37 +185,6 @@ for _, server in ipairs(languageServers) do
   }
 end
 
-lspconfig.efm.setup {
-  init_options = { documentFormatting = true },
-  settings = {
-    languages = {
-      css = {
-        {
-          formatCommand =
-            './node_modules/.bin/prettier --stdin-filepath ${INPUT}',
-          formatStdin = true
-        }
-      },
-      html = {
-        {
-          formatCommand =
-            './node_modules/.bin/prettier --stdin-filepath ${INPUT}',
-          formatStdin = true
-        }
-      },
-      markdown = {
-        {
-          lintCommand = 'markdownlint -s',
-          lintStdin = true,
-          lintFormats = {
-            '%f:%l:%c %m'
-          }
-        }
-      }
-    }
-  }
-}
-
 lspconfig.lua_ls.setup {
   capabilities = capabilities,
   settings = {
@@ -240,6 +196,7 @@ lspconfig.lua_ls.setup {
   }
 }
 
+require('mason').setup()
 
 local cmp = require('cmp')
 
@@ -436,6 +393,8 @@ vim.g.gruvbox_material_foreground = 'original'
 vim.g.gruvbox_material_better_performance = 1
 vim.cmd('colorscheme gruvbox-material')
 
+require('mason-lspconfig').setup()
+
 vim.keymap.set('n', '<leader><leader>a', ':wa | mks! | qa!<CR>',
   { desc = 'Save files and make session' })
 vim.keymap.set('n', '<leader><leader>b', ':= vim.diagnostic.setqflist()<CR>',
@@ -445,7 +404,7 @@ vim.keymap.set('n', '<leader><leader>c', ':w | Make<CR>',
 vim.keymap.set(
   'n',
   '<leader><leader>d',
-  ':= vim.fn.system(Clip, vim.fn.expand("%:p"))<CR>',
+  ':= vim.fn.system("wl-copy", vim.fn.expand("%:p"))<CR>',
   { desc = 'Copy current buffer filepath to clipboard' }
 )
 vim.keymap.set(
