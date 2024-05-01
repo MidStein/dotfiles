@@ -22,8 +22,8 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
-export XDG_DATA_DIRS="/usr/local/share/:/usr/share/"
-export XDG_CONFIG_DIRS="/etc/xdg"
+export XDG_DATA_DIRS='/usr/local/share/:/usr/share/'
+export XDG_CONFIG_DIRS='/etc/xdg'
 
 export EDITOR=nvim
 export SYSTEMD_EDITOR=nvim
@@ -31,15 +31,13 @@ export LESS='FiQR'
 
 export PATH="$HOME/.local/bin:$PATH"
 
-export BAT_THEME="Solarized (light)"
+export BAT_THEME='Solarized (light)'
+export LS_COLORS=''
 
 set +o histexpand
 
 # shellcheck source=/dev/null
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
-
-[[ -f /usr/share/doc/fzf/examples/key-bindings.bash ]] && \
-  source "/usr/share/doc/fzf/examples/key-bindings.bash"
 
 # shellcheck source=/dev/null
 [[ -f "$HOME/.local/bash-git-prompt/gitprompt.sh" ]] && \

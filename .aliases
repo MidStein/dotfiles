@@ -4,7 +4,6 @@ alias cp='cp -i'
 
 alias ..='cd ..'
 alias gs='git status'
-alias open='xdg-open'
 
 alias ssh-addgent='eval `ssh-agent`; ssh-add'
 alias my-sql-pagered="mysql -u $USER --pager='less -FinSX' -p"

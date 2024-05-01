@@ -1,0 +1,2 @@
+set default-bg '#ccc'
+set database 'sqlite'
