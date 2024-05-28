@@ -18,7 +18,7 @@ That's why I put them on version control.
 ### Types of aliases based on need
 
 - Safety. Prevent accidental loss of data when using `mv`, `cp` or `rm`
-- Frequent use in short bursts. `..=cd ..` and `gs=git status`
+- Frequent use in short bursts. `..='cd ..'` and `gs=git status`
 - Periodic use. ssh-addgent='eval \`ssh-agent\`; ssh-add'
 - Too long
 

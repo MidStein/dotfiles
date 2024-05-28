@@ -442,5 +442,3 @@ vim.keymap.set('n', '<leader>f3', ':e +$ ~/keep/notes.md<CR>',
   { desc = 'notes.md' })
 vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
   { desc = 'lists.md' })
-vim.keymap.set('n', '<leader>f5', ':e ~/keep/college.md<CR>',
-  { desc = 'college.md' })

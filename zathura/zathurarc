@@ -1,2 +1,3 @@
 set default-bg '#ccc'
 set database 'sqlite'
+set selection-clipboard 'clipboard'
