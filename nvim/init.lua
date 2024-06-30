@@ -8,14 +8,13 @@ vim.opt.relativenumber = true
 vim.opt.smartcase = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.termguicolors = true
 vim.opt.undofile = true
 vim.opt.visualbell = true
 vim.opt.wildignorecase = true
 
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 5
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
 
 vim.opt.background = 'light'
 vim.opt.colorcolumn = '80'
@@ -91,6 +90,7 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/cmp-path'
+Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'sainnhe/gruvbox-material'
 Plug 'williamboman/mason-lspconfig.nvim'
@@ -102,6 +102,7 @@ vim.g.ctrlp_show_hidden = 1
 vim.g.ctrlp_working_path_mode = 'w'
 vim.g.ctrlp_cmd = 'CtrlPMixed'
 vim.g.ctrlp_mruf_max = 0
+vim.g.ctrlp_use_caching = 0
 
 
 require('nvim-treesitter.configs').setup {
@@ -172,7 +173,7 @@ local languageServers = {
   'rust_analyzer',
   'svelte',
   'texlab',
-  'tsserver',
+  -- 'tsserver',
   -- 'typos_lsp',
   'typst_lsp',
   'yamlls'
@@ -186,6 +187,15 @@ for _, server in ipairs(languageServers) do
     capabilities = capabilities
   }
 end
+
+lspconfig.tsserver.setup {
+  on_attach = function(client, _)
+    require('nvim-lsp-ts-utils').setup({
+      filter_out_diagnostics_by_code = { 80001, 6133 },
+    })
+    require('nvim-lsp-ts-utils').setup_client(client)
+  end,
+}
 
 lspconfig.lua_ls.setup {
   capabilities = capabilities,
@@ -205,7 +215,6 @@ local cmp = require('cmp')
 cmp.setup.cmdline(':', {
   sources = cmp.config.sources({
     { name = 'path' },
-    { name = 'cmdline' }
   })
 })
 
@@ -262,6 +271,7 @@ cmp.setup {
 
 require('lualine').setup {
   options = {
+    icons_enabled = false,
     theme = 'gruvbox_light'
   }
 }
@@ -438,7 +448,7 @@ vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>',
   { desc = 'init.lua' })
 vim.keymap.set('n', '<leader>f2', ':e ~/temp.txt<CR>',
   { desc = 'temp.txt' })
-vim.keymap.set('n', '<leader>f3', ':e +$ ~/keep/notes.md<CR>',
+vim.keymap.set('n', '<leader>f3', ':e + ~/keep/notes.md<CR>',
   { desc = 'notes.md' })
 vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
   { desc = 'lists.md' })
