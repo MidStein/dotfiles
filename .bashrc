@@ -1,8 +1,3 @@
-#
-# ~/.bashrc
-#
-
-# If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
@@ -17,6 +12,8 @@ export NVM_DIR="$HOME/.config/nvm"
 
 # shellcheck source=/dev/null
 [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+
+HISTCONTROL=ignoredups
 
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
