@@ -26,7 +26,7 @@ vim.opt.nrformats:remove 'octal'
 vim.opt.clipboard:append 'unnamedplus'
 vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
-vim.opt.wildignore:append '.git,node_modules,.venv,target'
+vim.opt.wildignore:append '.git,node_modules,.venv,target,*.pdf'
 
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
@@ -108,7 +108,7 @@ vim.g.ctrlp_match_current_file = 1
 
 require('nvim-treesitter.configs').setup {
   ensure_installed =
-    { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+  { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
   auto_install = true,
   highlight = {
     enable = true,
@@ -169,6 +169,7 @@ local languageServers = {
   'eslint',
   'html',
   'jsonls',
+  'gopls',
   -- 'lua_ls',
   'pyright',
   'rust_analyzer',
@@ -226,8 +227,8 @@ local has_words_before = function()
   unpack = unpack or table.unpack
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
-    :sub(col, col)
-    :match("%s") == nil
+      :sub(col, col)
+      :match("%s") == nil
 end
 
 cmp.setup {
@@ -453,3 +454,8 @@ vim.keymap.set('n', '<leader>f3', ':e + ~/keep/notes.md<CR>',
   { desc = 'notes.md' })
 vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
   { desc = 'lists.md' })
+
+vim.api.nvim_create_autocmd(
+  'Filetype',
+  { pattern = 'rust', command = 'set colorcolumn=100' }
+)

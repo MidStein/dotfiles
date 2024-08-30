@@ -27,6 +27,7 @@ export SYSTEMD_EDITOR=nvim
 export LESS='FiQR'
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 export BAT_THEME='Solarized (light)'
 export LS_COLORS=''
@@ -39,8 +40,5 @@ set +o histexpand
 # shellcheck source=/dev/null
 [[ -f "$HOME/.local/bash-git-prompt/gitprompt.sh" ]] && \
   source "$HOME/.local/bash-git-prompt/gitprompt.sh"
-
-# shellcheck source=/dev/null
-hash ng && source <(ng completion script)
 
 hash zoxide && eval "$(zoxide init bash)"
