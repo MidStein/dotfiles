@@ -76,15 +76,13 @@ plugins/language servers/key mappings.
   - Options set to strings
   - Removing items from an option
   - Adding items to an option
-  - Netrw options
-- Custom autocommands
-- Workaround for yanking text to Windows clipboard
 - Plugins
   - Plugins list with vim-plug
   - Setting variables of vimscript plugins
   - Setups for [top lua plugins](https://dotfyle.com/neovim/plugins/top).
     Includes keybinds and language servers list
   - Setups for other lua plugins
+- Custom autocommands
 - Custom mappings.
 
 ---

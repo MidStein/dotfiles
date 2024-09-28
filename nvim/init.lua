@@ -28,12 +28,6 @@ vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
 vim.opt.wildignore:append '.git,node_modules,.venv,target,*.pdf'
 
-vim.g.netrw_banner = 0
-vim.g.netrw_liststyle = 3
-vim.g.netrw_preview = 1
-vim.g.netrw_alto = 0
-vim.g.netrw_winsize = 15
-
 
 local data_dir
 if vim.fn.has('nvim') == 1 then
@@ -60,7 +54,9 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'kaarmu/typst.vim'
+Plug 'preservim/nerdtree'
 Plug 'mattn/emmet-vim'
+Plug 'simnalamburt/vim-mundo'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
@@ -98,12 +94,18 @@ vim.call('plug#end')
 
 
 vim.g.ctrlp_map = '<c-e>'
-vim.g.ctrlp_show_hidden = 1
-vim.g.ctrlp_working_path_mode = 'w'
 vim.g.ctrlp_cmd = 'CtrlPMixed'
-vim.g.ctrlp_mruf_max = 0
+vim.g.ctrlp_switch_buffer = 0
+vim.g.ctrlp_working_path_mode = 'w'
 vim.g.ctrlp_use_caching = 0
+vim.g.ctrlp_show_hidden = 1
 vim.g.ctrlp_match_current_file = 1
+vim.g.ctrlp_mruf_max = 0
+
+vim.g.NERDTreeShowHidden = 1
+
+vim.keymap.set('n', '<F5>', ':MundoToggle<CR>')
+vim.g.mundo_preview_bottom = 1
 
 
 require('nvim-treesitter.configs').setup {
@@ -159,7 +161,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 
 local languageServers = {
-  'angularls',
   'bashls',
   'clangd',
   'cssls',
@@ -167,15 +168,15 @@ local languageServers = {
   'dockerls',
   'emmet_language_server',
   'eslint',
-  'html',
+  -- 'html',
   'jsonls',
   'gopls',
   -- 'lua_ls',
-  'pyright',
+  'ruff',
   'rust_analyzer',
   'svelte',
   'texlab',
-  -- 'tsserver',
+  'ts_ls',
   -- 'typos_lsp',
   'typst_lsp',
   'yamlls'
@@ -190,13 +191,11 @@ for _, server in ipairs(languageServers) do
   }
 end
 
-lspconfig.tsserver.setup {
-  on_attach = function(client, _)
-    require('nvim-lsp-ts-utils').setup({
-      filter_out_diagnostics_by_code = { 80001, 6133 },
-    })
-    require('nvim-lsp-ts-utils').setup_client(client)
-  end,
+lspconfig.html.setup {
+  capabilities = capabilities,
+  init_options = {
+    provideFormatter = false,
+  }
 }
 
 lspconfig.lua_ls.setup {
@@ -422,6 +421,11 @@ vim.cmd('colorscheme gruvbox-material')
 
 require('mason-lspconfig').setup()
 
+vim.api.nvim_create_autocmd(
+  'Filetype',
+  { pattern = 'rust', command = 'set colorcolumn=100' }
+)
+
 vim.keymap.set('n', '<leader><leader>a', ':wa | mks! | qa!<CR>',
   { desc = 'Save files and make session' })
 vim.keymap.set('n', '<leader><leader>b', ':= vim.diagnostic.setqflist()<CR>',
@@ -445,6 +449,30 @@ vim.keymap.set(
   end,
   { desc = 'History diff' }
 )
+vim.keymap.set(
+  'n',
+  '<leader><leader>f',
+  function()
+    local line = vim.fn.getline('.')
+    line = line:gsub("^%s+", "")
+    vim.fn.setreg('+', line)
+  end,
+  { desc = 'Copy line without leading spaces and ending newline' }
+)
+vim.keymap.set(
+  'n',
+  '<leader><leader>g',
+  function()
+    local line = vim.fn.getline('.')
+    local leadingSpaces = string.match(line, "^%s+")
+    if leadingSpaces == nil then
+      leadingSpaces = ''
+    end
+    vim.fn.setreg('/', '^' .. leadingSpaces .. '<')
+  end,
+  { desc = 'Jump to closing html tag and back' }
+)
+vim.keymap.set('n', '<leader><leader>h', ':NERDTree<CR>')
 
 vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>',
   { desc = 'init.lua' })
@@ -454,8 +482,3 @@ vim.keymap.set('n', '<leader>f3', ':e + ~/keep/notes.md<CR>',
   { desc = 'notes.md' })
 vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
   { desc = 'lists.md' })
-
-vim.api.nvim_create_autocmd(
-  'Filetype',
-  { pattern = 'rust', command = 'set colorcolumn=100' }
-)
