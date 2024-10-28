@@ -6,3 +6,5 @@ alias ..='cd ..'
 alias gs='git status'
 
 alias ssh-addgent='eval `ssh-agent`; ssh-add'
+
+rand() { python ~/scripts/rand.py "$@"; }

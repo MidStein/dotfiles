@@ -12,6 +12,9 @@ vim.opt.undofile = true
 vim.opt.visualbell = true
 vim.opt.wildignorecase = true
 
+vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 3
+
 vim.opt.scrolloff = 5
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
@@ -103,6 +106,7 @@ vim.g.ctrlp_match_current_file = 1
 vim.g.ctrlp_mruf_max = 0
 
 vim.g.NERDTreeShowHidden = 1
+vim.g.NERDTreeHijackNetrw = 0
 
 vim.keymap.set('n', '<F5>', ':MundoToggle<CR>')
 vim.g.mundo_preview_bottom = 1
@@ -111,11 +115,10 @@ vim.g.mundo_preview_bottom = 1
 require('nvim-treesitter.configs').setup {
   ensure_installed =
   { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-  auto_install = true,
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false
-  }
+  },
 }
 
 
@@ -172,7 +175,8 @@ local languageServers = {
   'jsonls',
   'gopls',
   -- 'lua_ls',
-  'ruff',
+  'pyright',
+  -- 'ruff',
   'rust_analyzer',
   'svelte',
   'texlab',
@@ -187,7 +191,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 for _, server in ipairs(languageServers) do
   lspconfig[server].setup {
-    capabilities = capabilities
+    capabilities = capabilities,
   }
 end
 
@@ -195,7 +199,7 @@ lspconfig.html.setup {
   capabilities = capabilities,
   init_options = {
     provideFormatter = false,
-  }
+  },
 }
 
 lspconfig.lua_ls.setup {
@@ -206,7 +210,16 @@ lspconfig.lua_ls.setup {
         globals = { 'vim' }
       }
     }
-  }
+  },
+}
+
+lspconfig.ruff.setup {
+  capabilities = capabilities,
+  on_attach = function(client)
+    if client.name == 'ruff' then
+      client.server_capabilities.hoverProvider = false
+    end
+  end
 }
 
 require('mason').setup()
@@ -402,6 +415,7 @@ treesitter_textobjects.setup {
   },
 }
 
+
 vim.api.nvim_create_autocmd('ColorScheme', {
   group = vim.api.nvim_create_augroup('custom_highlights_gruvboxmaterial', {}),
   pattern = 'gruvbox-material',
@@ -420,6 +434,7 @@ vim.g.gruvbox_material_better_performance = 1
 vim.cmd('colorscheme gruvbox-material')
 
 require('mason-lspconfig').setup()
+
 
 vim.api.nvim_create_autocmd(
   'Filetype',
@@ -470,9 +485,14 @@ vim.keymap.set(
     end
     vim.fn.setreg('/', '^' .. leadingSpaces .. '<')
   end,
-  { desc = 'Jump to closing html tag and back' }
+  { desc = 'For jumping to closing html tag and back' }
 )
-vim.keymap.set('n', '<leader><leader>h', ':NERDTree<CR>')
+vim.keymap.set('n', '<leader><leader>h', ':NERDTree<CR>',
+  { desc = 'Open nerdtree' })
+vim.keymap.set('n', '<leader><leader>i', ':so ~/tbd/temp.lua<CR>',
+  { desc = 'Load lua script' })
+vim.keymap.set('n', '<leader><leader>j', ':NERDTreeFind<CR>',
+  { desc = ':NERDTreeFind' })
 
 vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>',
   { desc = 'init.lua' })

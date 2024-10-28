@@ -38,7 +38,7 @@ set +o histexpand
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
 # shellcheck source=/dev/null
-[[ -f "$HOME/.local/bash-git-prompt/gitprompt.sh" ]] && \
-  source "$HOME/.local/bash-git-prompt/gitprompt.sh"
+[[ -f "$HOME/.local/lib/bash-git-prompt/gitprompt.sh" ]] && \
+  source "$HOME/.local/lib/bash-git-prompt/gitprompt.sh"
 
 hash zoxide && eval "$(zoxide init bash)"
