@@ -3,8 +3,16 @@ alias rm='rm -I'
 alias cp='cp -i'
 
 alias ..='cd ..'
-alias gs='git status'
 
 alias ssh-addgent='eval `ssh-agent`; ssh-add'
 
 rand() { python ~/scripts/rand.py "$@"; }
+xdg-open() { command xdg-open "$(realpath "$1")"; }
+git() {
+  if [ "$1" = "init" ]; then
+    command git init && \
+      cp ~/scripts/commit-msg .git/hooks/commit-msg && \
+      chmod u+x $_
+  else
+    command git "$@"; fi;
+}

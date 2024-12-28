@@ -29,7 +29,7 @@ vim.opt.nrformats:remove 'octal'
 vim.opt.clipboard:append 'unnamedplus'
 vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
-vim.opt.wildignore:append '.git,node_modules,.venv,target,*.pdf'
+vim.opt.wildignore:append '.git,node_modules,.venv,target,*.pdf,*.pyc'
 
 
 local data_dir
@@ -115,6 +115,7 @@ vim.g.mundo_preview_bottom = 1
 require('nvim-treesitter.configs').setup {
   ensure_installed =
   { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+  -- auto_install = true,
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false
@@ -172,8 +173,11 @@ local languageServers = {
   'emmet_language_server',
   'eslint',
   -- 'html',
+  'graphql',
+  'jdtls',
   'jsonls',
   'gopls',
+  'lemminx',
   -- 'lua_ls',
   'pyright',
   -- 'ruff',
@@ -450,7 +454,11 @@ vim.keymap.set('n', '<leader><leader>c', ':w | Make<CR>',
 vim.keymap.set(
   'n',
   '<leader><leader>d',
-  ':= vim.fn.system("wl-copy", vim.fn.expand("%:p"))<CR>',
+  function()
+    local path = vim.fn.expand('%:p')
+    path = path:gsub("^/home/[^/]+", "~")
+    vim.fn.system("wl-copy", path)
+  end,
   { desc = 'Copy current buffer filepath to clipboard' }
 )
 vim.keymap.set(
@@ -493,6 +501,13 @@ vim.keymap.set('n', '<leader><leader>i', ':so ~/tbd/temp.lua<CR>',
   { desc = 'Load lua script' })
 vim.keymap.set('n', '<leader><leader>j', ':NERDTreeFind<CR>',
   { desc = ':NERDTreeFind' })
+vim.keymap.set('n', '<leader><leader>k',
+  function ()
+    local path = vim.fn.expand('%')
+    vim.fn.system("prettier -w " .. path)
+    vim.cmd('e')
+  end,
+{ desc = 'format current file using prettier' })
 
 vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>',
   { desc = 'init.lua' })
