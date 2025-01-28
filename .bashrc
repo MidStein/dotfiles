@@ -41,3 +41,7 @@ set +o histexpand
   source "$HOME/.local/lib/bash-git-prompt/gitprompt.sh"
 
 hash zoxide && eval "$(zoxide init bash)"
+
+source <(ng completion script)
+
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk/

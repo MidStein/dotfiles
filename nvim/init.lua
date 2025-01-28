@@ -29,7 +29,7 @@ vim.opt.nrformats:remove 'octal'
 vim.opt.clipboard:append 'unnamedplus'
 vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
-vim.opt.wildignore:append '.git,node_modules,.venv,target,*.pdf,*.pyc'
+vim.opt.wildignore:append '.git,node_modules,.venv,target,*.pdf,*.pyc,.angular'
 
 
 local data_dir
@@ -165,6 +165,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 
 local languageServers = {
+  -- 'angularls',
   'bashls',
   'clangd',
   'cssls',
@@ -186,7 +187,7 @@ local languageServers = {
   'texlab',
   'ts_ls',
   -- 'typos_lsp',
-  'typst_lsp',
+  'tinymist',
   'yamlls'
 }
 
@@ -198,6 +199,34 @@ for _, server in ipairs(languageServers) do
     capabilities = capabilities,
   }
 end
+
+lspconfig.angularls.setup {
+  capabilities = capabilities,
+  cmd = {
+    "ngserver",
+    "--stdio",
+    "--tsProbeLocations",
+    vim.env.XDG_DATA_HOME
+    .. "/nvim/mason/packages/angular-language-server",
+    "--ngProbeLocations",
+    vim.env.XDG_DATA_HOME
+    .. "/nvim/mason/packages/angular-language-server"
+    .. "/node_modules/@angular/language-server/",
+  },
+  on_new_config = function(new_config)
+    new_config.cmd = {
+      "ngserver",
+      "--stdio",
+      "--tsProbeLocations",
+      vim.env.XDG_DATA_HOME
+      .. "/nvim/mason/packages/angular-language-server",
+      "--ngProbeLocations",
+      vim.env.XDG_DATA_HOME
+      .. "/nvim/mason/packages/angular-language-server"
+      .. "/node_modules/@angular/language-server/",
+    }
+  end
+}
 
 lspconfig.html.setup {
   capabilities = capabilities,
@@ -456,8 +485,8 @@ vim.keymap.set(
   '<leader><leader>d',
   function()
     local path = vim.fn.expand('%:p')
-    path = path:gsub("^/home/[^/]+", "~")
-    vim.fn.system("wl-copy", path)
+    path = path:gsub('^/home/[^/]+', '~')
+    vim.fn.system('wl-copy', path)
   end,
   { desc = 'Copy current buffer filepath to clipboard' }
 )
@@ -477,7 +506,7 @@ vim.keymap.set(
   '<leader><leader>f',
   function()
     local line = vim.fn.getline('.')
-    line = line:gsub("^%s+", "")
+    line = line:gsub('^%s+', '')
     vim.fn.setreg('+', line)
   end,
   { desc = 'Copy line without leading spaces and ending newline' }
@@ -487,7 +516,7 @@ vim.keymap.set(
   '<leader><leader>g',
   function()
     local line = vim.fn.getline('.')
-    local leadingSpaces = string.match(line, "^%s+")
+    local leadingSpaces = string.match(line, '^%s+')
     if leadingSpaces == nil then
       leadingSpaces = ''
     end
@@ -502,12 +531,13 @@ vim.keymap.set('n', '<leader><leader>i', ':so ~/tbd/temp.lua<CR>',
 vim.keymap.set('n', '<leader><leader>j', ':NERDTreeFind<CR>',
   { desc = ':NERDTreeFind' })
 vim.keymap.set('n', '<leader><leader>k',
-  function ()
+  function()
     local path = vim.fn.expand('%')
-    vim.fn.system("prettier -w " .. path)
+    vim.cmd('w')
+    vim.fn.system('prettier -w ' .. path)
     vim.cmd('e')
   end,
-{ desc = 'format current file using prettier' })
+  { desc = 'format current file using prettier' })
 
 vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>',
   { desc = 'init.lua' })
@@ -517,3 +547,7 @@ vim.keymap.set('n', '<leader>f3', ':e + ~/keep/notes.md<CR>',
   { desc = 'notes.md' })
 vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
   { desc = 'lists.md' })
+
+if vim.fn.getcwd() == vim.fn.expand('~') then
+  vim.g.ctrlp_working_path_mode = 'c'
+end
