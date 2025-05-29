@@ -23,14 +23,21 @@ vim.opt.background = 'light'
 vim.opt.colorcolumn = '80'
 vim.opt.signcolumn = 'yes'
 
+if vim.fn.getcwd() == vim.fn.expand('~') then
+  vim.g.ctrlp_working_path_mode = 'c'
+end
+
 vim.opt.foldopen:remove 'block'
 vim.opt.nrformats:remove 'octal'
 
 vim.opt.clipboard:append 'unnamedplus'
 vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
-vim.opt.wildignore:append '.git,node_modules,.venv,target,*.pdf,*.pyc,.angular'
 
+local patterns = { '.git', '.node_modules', '.venv', 'target', '*.pdf', '*.pyc', '*.class', '*.jar' }
+for _, pattern in ipairs(patterns) do
+  vim.opt.wildignore:append(pattern)
+end
 
 local data_dir
 if vim.fn.has('nvim') == 1 then
@@ -61,7 +68,6 @@ Plug 'preservim/nerdtree'
 Plug 'mattn/emmet-vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
 
 Plug('nvim-treesitter/nvim-treesitter', {
@@ -85,13 +91,17 @@ Plug 'windwp/nvim-autopairs'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
+Plug 'github/copilot.vim'
+Plug 'mfussenegger/nvim-jdtls'
+Plug 'sainnhe/gruvbox-material'
+
+-- cmp
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/cmp-path'
-Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 Plug 'saadparwaiz1/cmp_luasnip'
-Plug 'sainnhe/gruvbox-material'
+-- mason
 Plug 'williamboman/mason-lspconfig.nvim'
 vim.call('plug#end')
 
@@ -165,30 +175,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 
 local languageServers = {
-  -- 'angularls',
   'bashls',
   'clangd',
   'cssls',
-  'docker_compose_language_service',
-  'dockerls',
   'emmet_language_server',
   'eslint',
-  -- 'html',
-  'graphql',
-  'jdtls',
   'jsonls',
-  'gopls',
   'lemminx',
-  -- 'lua_ls',
-  'pyright',
-  -- 'ruff',
-  'rust_analyzer',
-  'svelte',
-  'texlab',
   'ts_ls',
-  -- 'typos_lsp',
   'tinymist',
   'yamlls'
+
+  -- 'angularls',
+  -- 'html',
+  -- 'lua_ls',
+  -- 'pyright',
+  -- 'ruff',
+  -- 'typos_lsp',
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -246,6 +249,10 @@ lspconfig.lua_ls.setup {
   },
 }
 
+lspconfig.pyright.setup {
+  cmd = { 'pyright-langserver', '--stdio', '-p', '~/.config/pyright/pyrightconfig.json' },
+}
+
 lspconfig.ruff.setup {
   capabilities = capabilities,
   on_attach = function(client)
@@ -255,8 +262,6 @@ lspconfig.ruff.setup {
   end
 }
 
-require('mason').setup()
-
 local cmp = require('cmp')
 
 cmp.setup.cmdline(':', {
@@ -265,6 +270,7 @@ cmp.setup.cmdline(':', {
   })
 })
 
+require('mason').setup()
 
 local luasnip = require('luasnip')
 
@@ -449,6 +455,18 @@ treesitter_textobjects.setup {
 }
 
 
+vim.g.copilot_filetypes = {
+  ['*'] = false,
+  ['text'] = false,
+  ['markdown'] = false,
+  ['json'] = false,
+}
+vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+  expr = true,
+  replace_keycodes = false
+})
+vim.g.copilot_no_tab_map = true
+
 vim.api.nvim_create_autocmd('ColorScheme', {
   group = vim.api.nvim_create_augroup('custom_highlights_gruvboxmaterial', {}),
   pattern = 'gruvbox-material',
@@ -466,20 +484,42 @@ vim.g.gruvbox_material_foreground = 'original'
 vim.g.gruvbox_material_better_performance = 1
 vim.cmd('colorscheme gruvbox-material')
 
+
 require('mason-lspconfig').setup()
 
-
-vim.api.nvim_create_autocmd(
-  'Filetype',
-  { pattern = 'rust', command = 'set colorcolumn=100' }
-)
 
 vim.keymap.set('n', '<leader><leader>a', ':wa | mks! | qa!<CR>',
   { desc = 'Save files and make session' })
 vim.keymap.set('n', '<leader><leader>b', ':= vim.diagnostic.setqflist()<CR>',
   { desc = 'Put diagnostics in quickfix window' })
-vim.keymap.set('n', '<leader><leader>c', ':w | Make<CR>',
-  { desc = 'Asynchronous Make' })
+vim.keymap.set(
+  'n',
+  '<leader><leader>c',
+  function()
+    vim.ui.input(
+      {
+        prompt = "Enter statement: "
+      }, function(input)
+        if input then
+          local print_statement = string.format('System.out.println("%s: " + %s);', input, input)
+          local previous_line = vim.fn.getline(vim.api.nvim_win_get_cursor(0)[1] - 1)
+          local current_line = vim.fn.getline('.')
+          local indentation
+          if #current_line:match("^%s*") > 0 then
+            indentation = current_line:match("^%s*")
+          else
+            indentation = previous_line:match("^%s*")
+          end
+          local indented_print_statement = indentation .. print_statement
+          local row = vim.api.nvim_win_get_cursor(0)[1]
+          vim.api.nvim_buf_set_lines(0, row, row, false, { indented_print_statement })
+          vim.api.nvim_win_set_cursor(0, { row + 1, 0 })
+        end
+      end
+    )
+  end,
+  { desc = 'Java expression print debugging' }
+)
 vim.keymap.set(
   'n',
   '<leader><leader>d',
@@ -490,22 +530,20 @@ vim.keymap.set(
   end,
   { desc = 'Copy current buffer filepath to clipboard' }
 )
-vim.keymap.set(
-  'n',
-  '<leader><leader>e',
+vim.keymap.set('n', '<leader><leader>e',
   function()
-    local ext = vim.fn.expand('%:e')
-    vim.cmd('vert diffs ~/temp/temp.' .. ext)
-    vim.cmd('norm ggvGp')
-    vim.cmd('wincmd h')
+    local path = vim.fn.expand('%')
+    vim.cmd('w')
+    vim.fn.system('xmlformat --blanks --selfclose --eof-newline --overwrite '
+      .. path)
+    vim.cmd('e')
   end,
-  { desc = 'History diff' }
-)
+  { desc = 'format using xmlformatter' })
 vim.keymap.set(
   'n',
   '<leader><leader>f',
   function()
-    local line = vim.fn.getline('.')
+    local line = vim.api.nvim_get_current_line('.')
     line = line:gsub('^%s+', '')
     vim.fn.setreg('+', line)
   end,
@@ -515,7 +553,7 @@ vim.keymap.set(
   'n',
   '<leader><leader>g',
   function()
-    local line = vim.fn.getline('.')
+    local line = vim.api.nvim_get_current_line('.')
     local leadingSpaces = string.match(line, '^%s+')
     if leadingSpaces == nil then
       leadingSpaces = ''
@@ -538,16 +576,14 @@ vim.keymap.set('n', '<leader><leader>k',
     vim.cmd('e')
   end,
   { desc = 'format current file using prettier' })
+vim.keymap.set('n', '<leader><leader>l', ':!python %<CR>',
+  { desc = 'Execute this file using python' })
 
 vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>',
   { desc = 'init.lua' })
 vim.keymap.set('n', '<leader>f2', ':e ~/temp.txt<CR>',
   { desc = 'temp.txt' })
-vim.keymap.set('n', '<leader>f3', ':e + ~/keep/notes.md<CR>',
-  { desc = 'notes.md' })
+vim.keymap.set('n', '<leader>f3', ':e + ~/keep/log.md<CR>',
+  { desc = 'log.md' })
 vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
   { desc = 'lists.md' })
-
-if vim.fn.getcwd() == vim.fn.expand('~') then
-  vim.g.ctrlp_working_path_mode = 'c'
-end

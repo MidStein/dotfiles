@@ -7,11 +7,6 @@ alias grep='grep --color=auto'
 export NVM_DIR="$HOME/.config/nvm"
 # shellcheck source=/dev/null
 [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-# shellcheck source=/dev/null
-[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
-
-# shellcheck source=/dev/null
-[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 
 HISTCONTROL=ignoredups
 
@@ -30,18 +25,15 @@ export PATH="$HOME/.local/bin:$PATH"
 
 export BAT_THEME='Solarized (light)'
 export LS_COLORS=''
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/
 
 set +o histexpand
 
 # shellcheck source=/dev/null
-[[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
+[[ -f "$HOME/.aliases.bash" ]] && source "$HOME/.aliases.bash"
 
 # shellcheck source=/dev/null
 [[ -f "$HOME/.local/lib/bash-git-prompt/gitprompt.sh" ]] && \
   source "$HOME/.local/lib/bash-git-prompt/gitprompt.sh"
 
 hash zoxide && eval "$(zoxide init bash)"
-
-source <(ng completion script)
-
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk/

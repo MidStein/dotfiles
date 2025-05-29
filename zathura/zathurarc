@@ -1,3 +1,6 @@
 set default-bg '#ccc'
+set guioptions 'sv'
 set database 'sqlite'
 set selection-clipboard 'clipboard'
+set statusbar-home-tilde 'true'
+unmap d

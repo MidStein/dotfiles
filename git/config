@@ -4,7 +4,6 @@
 [init]
   defaultBranch = main
 [core]
-  excludesfile = /home/deepak/.gitignore_global
   pager = delta
 [alias]
   graph = log --all --graph --decorate --oneline
