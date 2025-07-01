@@ -41,7 +41,3 @@ poweroff() {
   fi
   command poweroff
 }
-pause() {
-  nmcli radio wifi off
-  ( sleep 120 && qdbus freedesktop.ScreenSaver /ScreenSaver Lock ) &
-}
