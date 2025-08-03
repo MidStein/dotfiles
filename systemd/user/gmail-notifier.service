@@ -1,0 +1,6 @@
+[Unit]
+Description=Notify about unread email(s) every 5 minutes
+
+[Service]
+Type=oneshot
+ExecStart=/home/deepak/scripts/gmail/notifier.py

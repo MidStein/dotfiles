@@ -41,3 +41,4 @@ poweroff() {
   fi
   command poweroff
 }
+pyscript() { python ~/code/python/script/script.py "$@"; }

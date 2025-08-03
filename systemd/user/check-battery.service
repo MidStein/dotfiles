@@ -1,0 +1,6 @@
+[Unit]
+Description=Remind when battery is fully charged
+
+[Service]
+Type=oneshot
+ExecStart=/home/deepak/scripts/check-battery.py

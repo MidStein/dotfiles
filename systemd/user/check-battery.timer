@@ -1,0 +1,10 @@
+[Unit]
+Description=Remind when battery fully charged
+
+[Timer]
+OnBootSec=30min
+OnUnitActiveSec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

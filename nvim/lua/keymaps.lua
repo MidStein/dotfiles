@@ -58,7 +58,7 @@ vim.keymap.set(
   'n',
   '<leader><leader>f',
   function()
-    local line = vim.api.nvim_get_current_line('.')
+    local line = vim.api.nvim_get_current_line()
     line = line:gsub('^%s+', '')
     vim.fn.setreg('+', line)
   end,
@@ -100,6 +100,16 @@ vim.keymap.set('n', '<leader><leader>k',
 vim.keymap.set('n', '<leader><leader>l', ':!python %<CR>',
   { desc = 'Execute this file using python' })
 
+vim.keymap.set(
+  'n',
+  '<leader><leader>m',
+  function()
+    local path = vim.fn.expand('%')
+    vim.fn.system('wl-copy', path)
+  end,
+  { desc = 'Copy current buffer relative filepath to clipboard' }
+)
+
 
 vim.keymap.set('n', '<leader>f1', ':e ~/.config/nvim/init.lua<CR>',
   { desc = 'init.lua' })
@@ -109,5 +119,5 @@ vim.keymap.set('n', '<leader>f3', ':e + ~/keep/log.md<CR>',
   { desc = 'log.md' })
 vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
   { desc = 'lists.md' })
-vim.keymap.set('n', '<leader>f5', ':e ~/tbd/todo.md<CR>',
-  { desc = 'HPCL todo.md' })
+vim.keymap.set('n', '<leader>f5', ':e ~/code/python/script/script.py<CR>',
+  { desc = 'script.py' })
