@@ -1,0 +1,9 @@
+[Unit]
+Description=Run reminders.service every morning
+
+[Timer]
+OnCalendar=08:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

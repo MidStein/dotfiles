@@ -1,91 +1,132 @@
 # Dotfiles
 
-**`$HOME` sweet `$HOME`**
+Config files for my Linux software.
 
-I live in the terminal. Here are three reasons why in particular:
+---
 
-- No need for closing and opening multiple graphical applications for different tasks
-- The terminal is simple. Every command line tool does it's own thing and is
-  well documented
-- It taught me the basics of operating systems and application software better
-  than any course ever did
+### Items
 
-This means that I often need to change stuff in and add stuff to my dotfiles.
-That's why I put them on version control.
+- [.aliases.bash](#aliasesbash)
+- [.bashrc](#bashrc)
+- [curlrc](#curlrc)
+- [git](#git)
+- [.inputrc](#inputrc)
+- [nvim](#nvim)
+- [sqlite3](#sqlite3)
+- [systemd](#systemd)
+- [tmux](#tmux)
+- [zathura](#zathura)
+- [Acknowledgement](#acknowledgement)
 
-## .aliases
+---
 
-### Types of aliases based on need
+## .aliases.bash
 
-- Safety. Prevent accidental loss of data when using `mv`, `cp` or `rm`
-- Frequent use in short bursts. `..='cd ..'` and `gs=git status`
-- Periodic use. ssh-addgent='eval \`ssh-agent\`; ssh-add'
-- Too long
+### Aliases
+
+- Safety confirmation. Prevent accidental loss of data when using `cp`, `mv`
+  and `rm`
+- `..` to quickly cd to parent directory
+- `ssh-addgent` to use ssh-agent to update git repository information on my
+  bash prompt without it repeatedly asking for my ssh credentials. I run it as
+  the first thing on my terminal.
+- `fdf` to fuzzily display all files from my home directory. Useful to combine
+  with `xdg-open` and `realpath $(dirname ) | wl-copy`
+
+### Functions
+
+- rand: Pick random lines from stdin. Useful with `seq`.
+- xdg-open: xdg-open does not work with relative paths outside the current
+  directory and it's descendants for some reason.
+- git: During Git init, add commit hook to never allow commit subjects longer
+  than 50 characters.
+- files-modified-today: List files modified today using nvim undo files. Useful
+  to remind myself what I did on a particular day.
+- tmux-workspace: Start a tmux session setup which suits my working style.
+  Usually, the second command I run after my terminal autostart.
+- cpwd: Copy the path of the current working directory. Useful for pasting to
+  the download location prompt dialogue when I download something using my
+  browser.
+- poweroff: Don't power off until chrome and tmux are closed. Chrome sometimes
+  says it shut down unexpectedly after booting up.
+- pyscript: Run my dedicated python script file. Using the same file means I
+  can just undo to an interesting script that I want to run once again, thanks
+  to nvim's persistent history.
 
 ## .bashrc
 
-### Order of contents
+- ls and grep should show coloured output for stdout.
+- Load node using nvm (node version manager).
+- Don't write duplicates in bash history.
+- Use XDG recommended environment variables.
+- Use nvim for EDITOR and SYSTEMD_EDITOR environment variables.
+- Use `FiQR` for less which means quit if one screen, ignore case, quiet and
+  raw control chars.
+- Use solarized light theme for bat.
+- Declare JAVA_HOME environment variable.
+- Turn off histexpand, so that ! character is not handled differently while
+  writing commands.
+- Source .aliases.bash.
+- Source bash-git-prompt.
+- Use zoxide.
 
-- Standard Ubuntu .bashrc with comments and some unused parts removed
-- Environment variables that (I think) would go into .profile for a
-  non-interactive shell (GUI applications)
-- Standard shell environment variables
-- Directories for `$PATH`
-- Environment variables for configuring installed programs
-- Shell options
-- Sourcing of more bash files
-- Running `eval` for initializing some installed programs
+## curlrc
+
+Don't join the starting of the new prompt to the output of curl.
+
+## git
+
+- config: same thing as ~/.gitconfig. Use delta as pager. git graph alias.
+  merge conflict style: diff3
+- ignore
+  - Session.vim: file used to save nvim in a particular state (called session
+    in nvim)
+  - .nvim.lua: custom nvim settings for a project
+  - todo.md: to-do list
+  - notes.md: notes
 
 ## .inputrc
 
 Turn off bell sounds. Use vi bindings when interacting with the shell.
 
-```bash
-set bell-style none
-set editing-mode vi
-```
+## nvim
 
-## .tmux.conf
+Nvim configuration files.
 
-Tmux is an integral part of my workflow. Look at my [scripts
-repo](https://github.com/MidStein/scripts) to see how I set it up.
+## sqlite3
 
-### Order of contents
+- output display mode: column
+- indicate null value by NULL
 
-- Use C-a as prefix
-- Options that take off or on (boolean) arguments
-- Options that take numerical arguments
-- Options that take an empty string argument
-- Options that take string arguments
-- Use [tmux-yank](https://github.com/tmux-plugins/tmux-yank) for copying from
-  the tmux to system
-- Custom bindings
+## systemd
 
-## init.lua
+Systemd services
 
-Initialization file for [NeoVim](https://neovim.io/): the hyperextensible
-editor. This one changes the most often because I add/modify/remove
-plugins/language servers/key mappings.
+- gmail-notifier: Every 5 minutes, check for unread gmails and show desktop
+  notifications for any.
+- reminders: Sets reminders for tasks throughout the day by scheduling gmails.
+- check-battery: Check and notify if battery is charged to 100%.
 
-### Order of contents
+## tmux
 
-- Options
-  - Options set to false
-  - Options set to true
-  - Options set to numerical values
-  - Options set to strings
-  - Removing items from an option
-  - Adding items to an option
-- Plugins
-  - Plugins list with vim-plug
-  - Setting variables of vimscript plugins
-  - Setups for [top lua plugins](https://dotfyle.com/neovim/plugins/top).
-    Includes keybinds and language servers list
-  - Setups for other lua plugins
-- Custom autocommands
-- Custom mappings.
+- Use C-a as prefix.
+- Be able to use mouse.
+- Allow focus events to be passed to applications running in tmux.
+- Don't wait for esc as part of a key sequence.
+- Don't set up anything on the right of status line by default.
+- Keep using Emacs bindings in status line command prompt.
 
----
+## zathura
 
-Big thanks to [The Missing Semester](https://missing.csail.mit.edu/) for
-introducing me to the command line experience.
+- Use grey background instead of a pitch black one.
+- Display vertical scrollbar.
+- Use SQLite as a database backend as the default plain is deprecated.
+- Copy to the regular clipboard.
+- Use ~ in status bar to indicate $HOME.
+- Unmap d, which toggles dual page view.
+
+## Acknowledgement
+
+I was introduced to this Linux terminal way by the course "[The Missing
+Semester of your CS Education](https://missing.csail.mit.edu/)". Huge thanks to
+the lecturers.

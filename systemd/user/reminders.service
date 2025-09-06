@@ -1,0 +1,8 @@
+[Unit]
+Description=Run reminders.py until it exits succesfully
+
+[Service]
+Type=oneshot
+ExecStart=/home/deepak/scripts/reminders.py
+Restart=on-failure
+RestartSec=600

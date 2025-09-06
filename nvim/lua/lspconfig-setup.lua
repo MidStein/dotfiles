@@ -55,8 +55,9 @@ local languageServers = {
   -- 'angularls',
   -- 'html',
   -- 'lua_ls',
-  -- python
+  -- python language server
   -- 'pyright',
+  -- python formatting
   -- 'ruff',
   -- 'sqls'
   -- 'typos_lsp',

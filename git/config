@@ -6,7 +6,7 @@
 [core]
   pager = delta
 [alias]
-  graph = log --all --graph --decorate --oneline
+  graph = log --all --decorate --graph --oneline
 [interactive]
   diffFilter = delta --color-only
 [delta]
@@ -24,8 +24,3 @@
   verbose = true
 [difftool "nvimdiff"]
   cmd = nvim -d -c 'wincmd l' -c 'cd "$GIT_PREFIX"' "$LOCAL" "$REMOTE"
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process

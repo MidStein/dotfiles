@@ -1,5 +1,5 @@
 [Unit]
-Description=Remind when battery fully charged
+Description=Run check-battery.service every 30 minutes
 
 [Timer]
 OnBootSec=30min

@@ -121,3 +121,5 @@ vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
   { desc = 'lists.md' })
 vim.keymap.set('n', '<leader>f5', ':e ~/code/python/script/script.py<CR>',
   { desc = 'script.py' })
+vim.keymap.set('n', '<leader>f6', ':e ~/tbd/todo.md<CR>',
+  { desc = 'todo.md' })
