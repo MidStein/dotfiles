@@ -1,5 +1,3 @@
-local lspconfig = require('lspconfig')
-
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
@@ -67,12 +65,13 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 for _, server in ipairs(languageServers) do
-  lspconfig[server].setup {
+  vim.lsp.config(server, {
     capabilities = capabilities,
-  }
+  })
+  vim.lsp.enable(server)
 end
 
-lspconfig.angularls.setup {
+vim.lsp.config('angularls', {
   capabilities = capabilities,
   cmd = {
     "ngserver",
@@ -98,16 +97,18 @@ lspconfig.angularls.setup {
       .. "/node_modules/@angular/language-server/",
     }
   end
-}
+})
+vim.lsp.enable('angularls')
 
-lspconfig.html.setup {
+vim.lsp.config('html', {
   capabilities = capabilities,
   init_options = {
     provideFormatter = false,
   },
-}
+})
+vim.lsp.enable('html')
 
-lspconfig.lua_ls.setup {
+vim.lsp.config('lua_ls', {
   capabilities = capabilities,
   settings = {
     Lua = {
@@ -116,23 +117,22 @@ lspconfig.lua_ls.setup {
       }
     }
   },
-}
+})
+vim.lsp.enable('lua_ls')
 
-lspconfig.pyright.setup {
+vim.lsp.config('pyright', {
   cmd = { 'pyright-langserver', '--stdio', '-p', '~/.config/pyright/pyrightconfig.json' },
-}
+})
+vim.lsp.enable('pyright')
 
-lspconfig.ruff.setup {
+vim.lsp.config('ruff', {
   capabilities = capabilities,
   on_attach = function(client)
     if client.name == 'ruff' then
       client.server_capabilities.hoverProvider = false
     end
   end
-}
+})
+vim.lsp.enable('ruff')
 
-require'lspconfig'.sqls.setup{
-  on_attach = function(client, bufnr)
-    require('sqls').on_attach(client, bufnr)
-  end
-}
+vim.lsp.enable('sqls')

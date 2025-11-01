@@ -3,7 +3,6 @@ vim.call('plug#begin')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'kaarmu/typst.vim'
 Plug 'preservim/nerdtree'
 Plug 'mattn/emmet-vim'
 Plug 'simnalamburt/vim-mundo'
@@ -36,7 +35,6 @@ Plug 'nanotee/sqls.nvim'
 Plug 'sainnhe/gruvbox-material'
 
 -- cmp
-Plug 'Jezda1337/nvim-html-css'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'

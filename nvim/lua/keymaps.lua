@@ -52,7 +52,7 @@ vim.keymap.set('n', '<leader><leader>e',
       .. path)
     vim.cmd('e')
   end,
-  { desc = 'format using xmlformatter' })
+  { desc = 'Format using xmlformatter' })
 
 vim.keymap.set(
   'n',
@@ -79,14 +79,14 @@ vim.keymap.set(
   { desc = 'For jumping to closing html tag and back' }
 )
 
-vim.keymap.set('n', '<leader><leader>h', ':NERDTree<CR>',
+vim.keymap.set('n', '<leader><leader>h', vim.cmd.NERDTree,
   { desc = 'Open nerdtree' })
 
 vim.keymap.set('n', '<leader><leader>i', ':so ~/tbd/temp.lua<CR>',
   { desc = 'Load lua script' })
 
-vim.keymap.set('n', '<leader><leader>j', ':NERDTreeFind<CR>',
-  { desc = ':NERDTreeFind' })
+vim.keymap.set('n', '<leader><leader>j', vim.cmd.NERDTreeFind,
+  { desc = 'NERDTreeFind' })
 
 vim.keymap.set('n', '<leader><leader>k',
   function()
@@ -95,7 +95,7 @@ vim.keymap.set('n', '<leader><leader>k',
     vim.fn.system('prettier -w ' .. path)
     vim.cmd('e')
   end,
-  { desc = 'format current file using prettier' })
+  { desc = 'Format current file using prettier' })
 
 vim.keymap.set('n', '<leader><leader>l', ':!python %<CR>',
   { desc = 'Execute this file using python' })
