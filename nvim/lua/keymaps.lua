@@ -13,7 +13,13 @@ vim.keymap.set(
         prompt = "Enter statement: "
       }, function(input)
         if input then
-          local print_statement = string.format('System.out.println("%s: " + %s);', input, input)
+          local ft = vim.bo.filetype;
+          local print_statement
+          if ft == "java" then
+            print_statement = string.format('System.out.println("%s: " + %s);', input, input)
+          elseif ft == "python" then
+            print_statement = string.format('print(f"%s: {%s}")', input, input)
+          end
           local previous_line = vim.fn.getline(vim.api.nvim_win_get_cursor(0)[1] - 1)
           local current_line = vim.fn.getline('.')
           local indentation
@@ -30,7 +36,7 @@ vim.keymap.set(
       end
     )
   end,
-  { desc = 'Java expression print debugging' }
+  { desc = 'Expression print debugging' }
 )
 
 vim.keymap.set(
@@ -119,7 +125,7 @@ vim.keymap.set('n', '<leader>f3', ':e + ~/keep/log.md<CR>',
   { desc = 'log.md' })
 vim.keymap.set('n', '<leader>f4', ':e ~/keep/lists.md<CR>',
   { desc = 'lists.md' })
-vim.keymap.set('n', '<leader>f5', ':e ~/code/python/script/script.py<CR>',
+vim.keymap.set('n', '<leader>f5', ':e ~/code/pyscript/script.py<CR>',
   { desc = 'script.py' })
 vim.keymap.set('n', '<leader>f6', ':e ~/tbd/todo.md<CR>',
   { desc = 'todo.md' })

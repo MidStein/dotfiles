@@ -15,7 +15,6 @@ require('lualine-setup')
 require('indent-blankline')
 require('comment')
 require('friendly-snippets')
-require('nvim-treesitter-textobjects-setup')
 
 require('gruvbox-material')
 

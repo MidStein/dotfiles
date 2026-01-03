@@ -1,6 +1,6 @@
 alias cp='cp -i'
 alias mv='mv -i'
-alias rm='rm -I'
+alias rm='safe-rm -I'
 
 alias ..='cd ..'
 
@@ -27,7 +27,7 @@ files-modified-today() {
     | less
 }
 tmux-workspace() { bash ~/scripts/tmux-workspace.bash "$@"; }
-cpwd() { pwd | wl-copy; }
+cpwd() { pwd | wl-copy -n; }
 poweroff() {
   pidof chrome >> /dev/null
   if [[ "$?" == 0 ]]; then
@@ -41,4 +41,4 @@ poweroff() {
   fi
   command poweroff
 }
-pyscript() { python ~/code/python/script/script.py "$@"; }
+pyscript() { python ~/code/pyscript/script.py "$@"; }

@@ -50,7 +50,6 @@ local languageServers = {
   'tinymist',
   'yamlls',
 
-  -- 'angularls',
   -- 'html',
   -- 'lua_ls',
   -- python language server
@@ -70,35 +69,6 @@ for _, server in ipairs(languageServers) do
   })
   vim.lsp.enable(server)
 end
-
-vim.lsp.config('angularls', {
-  capabilities = capabilities,
-  cmd = {
-    "ngserver",
-    "--stdio",
-    "--tsProbeLocations",
-    vim.env.XDG_DATA_HOME
-    .. "/nvim/mason/packages/angular-language-server",
-    "--ngProbeLocations",
-    vim.env.XDG_DATA_HOME
-    .. "/nvim/mason/packages/angular-language-server"
-    .. "/node_modules/@angular/language-server/",
-  },
-  on_new_config = function(new_config)
-    new_config.cmd = {
-      "ngserver",
-      "--stdio",
-      "--tsProbeLocations",
-      vim.env.XDG_DATA_HOME
-      .. "/nvim/mason/packages/angular-language-server",
-      "--ngProbeLocations",
-      vim.env.XDG_DATA_HOME
-      .. "/nvim/mason/packages/angular-language-server"
-      .. "/node_modules/@angular/language-server/",
-    }
-  end
-})
-vim.lsp.enable('angularls')
 
 vim.lsp.config('html', {
   capabilities = capabilities,

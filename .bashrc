@@ -4,13 +4,12 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
 
-export EDITOR=nvim
-export SYSTEMD_EDITOR=nvim
-export LESS=FiQR
-
 export BAT_THEME='Solarized (light)'
+export EDITOR=nvim
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/
+export LESS=FiQR
 export LS_COLORS=''
+export SYSTEMD_EDITOR=nvim
 
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -23,6 +22,6 @@ HISTCONTROL=ignoredups
 set +o histexpand
 
 source "$HOME/.aliases.bash"
-source "$HOME/.local/lib/bash-git-prompt/gitprompt.sh"
+source /usr/lib/bash-git-prompt/gitprompt.sh
 
 eval "$(zoxide init bash)"
