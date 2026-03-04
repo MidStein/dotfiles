@@ -1,8 +1,6 @@
 local Plug = vim.fn['plug#']
 vim.call('plug#begin')
 Plug('ctrlpvim/ctrlp.vim')
-Plug('junegunn/fzf')
-Plug('junegunn/fzf.vim')
 Plug('preservim/nerdtree')
 Plug('mattn/emmet-vim')
 Plug('simnalamburt/vim-mundo')

@@ -5,6 +5,7 @@ vim.opt.exrc = true
 vim.opt.ignorecase = true
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.secure = true
 vim.opt.smartcase = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -27,7 +28,7 @@ vim.opt.clipboard:append 'unnamedplus'
 vim.opt.nrformats:append 'unsigned'
 vim.opt.path:append '**'
 
-local patterns = { '.git', 'node_modules', '.venv', 'target', '*.pdf', '*.pyc', '*.class', '*.jar', '.angular', 'dist' }
+local patterns = { '.git', 'target', 'node_modules', 'dist', '.venv', '__pycache__', '*.pdf' }
 for _, pattern in ipairs(patterns) do
   vim.opt.wildignore:append(pattern)
 end

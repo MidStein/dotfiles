@@ -1,5 +1,6 @@
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'lua', 'java', 'typescript', 'javascript', 'python', 'sql', 'json', 'xml', 'csv', 'yaml', 'typst' },
+  group = vim.api.nvim_create_augroup('nvim_treesitter_setup', {}),
+  pattern = { 'lua', 'java', 'typescript', 'javascript', 'python', 'sql', 'json', 'xml', 'csv', 'yaml', 'typst', 'html' },
   callback = function()
     vim.treesitter.start()
     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"

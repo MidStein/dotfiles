@@ -18,7 +18,11 @@ git() {
     command git "$@"; fi;
 }
 files-modified-today() {
-  find ~/.local/state/nvim/undo/ -daystart -mtime -1 -printf "%T@ %p\n" \
+  find ~/.local/state/nvim/undo/ \
+    -mindepth 1 \
+    -daystart \
+    -mtime -1 \
+    -printf "%T@ %p\n" \
     | sort -n \
     | cut -d ' ' -f 2- \
     | cut -d '%' -f 4- \

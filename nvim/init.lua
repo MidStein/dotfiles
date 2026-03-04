@@ -1,4 +1,4 @@
-require('options')
+require('options-setup')
 require('netrw')
 
 require('vim-plug')

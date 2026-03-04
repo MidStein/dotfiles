@@ -1,8 +1,14 @@
 vim.keymap.set('n', '<leader><leader>a', ':wa | mks! | qa!<CR>',
   { desc = 'Save files and make session' })
 
-vim.keymap.set('n', '<leader><leader>b', ':= vim.diagnostic.setqflist()<CR>',
-  { desc = 'Put diagnostics in quickfix window' })
+vim.keymap.set(
+  'n',
+  '<leader><leader>b',
+  function()
+    vim.wo.wrap = not vim.wo.wrap
+  end,
+  { desc = 'Toggle wrap in the current window' }
+)
 
 vim.keymap.set(
   'n',
@@ -114,6 +120,31 @@ vim.keymap.set(
     vim.fn.system('wl-copy', path)
   end,
   { desc = 'Copy current buffer relative filepath to clipboard' }
+)
+
+vim.keymap.set(
+  'n',
+  '<leader><leader>o',
+  function()
+    local buffer_to_delete = vim.api.nvim_get_current_buf()
+    vim.api.nvim_set_current_buf(vim.fn.bufnr("#"))
+    vim.api.nvim_buf_delete(buffer_to_delete, {})
+  end,
+  { desc = 'Unload current buffer and open the previously edited file' }
+)
+
+vim.keymap.set(
+  'n',
+  '<leader><leader>p',
+  function()
+    vim.cmd('only')
+    vim.cmd.e('~/work-todo.md')
+    local work_log_bufnr = vim.fn.bufadd(vim.fn.getenv('HOME') .. '/keep/work-log.md')
+    vim.api.nvim_open_win(work_log_bufnr, false, { vertical = true })
+    local project_todo_bufnr = vim.fn.bufadd('./todo.md')
+    vim.api.nvim_open_win(project_todo_bufnr, false, { vertical = false })
+  end,
+  { desc = 'Create the work third tab layout' }
 )
 
 
