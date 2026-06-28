@@ -4,9 +4,11 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
 
+export PATH="/home/deepak/.local/bin:$PATH"
+
 export BAT_THEME='Solarized (light)'
 export EDITOR=nvim
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk/
 export LESS=FiQR
 export LS_COLORS=''
 export SYSTEMD_EDITOR=nvim

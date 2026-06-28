@@ -37,4 +37,6 @@ Plug('hrsh7th/cmp-nvim-lsp')
 Plug('hrsh7th/cmp-nvim-lsp-signature-help')
 Plug('hrsh7th/cmp-path')
 Plug('saadparwaiz1/cmp_luasnip')
+
+Plug('JoosepAlviste/nvim-ts-context-commentstring')
 vim.call('plug#end')

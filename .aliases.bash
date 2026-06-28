@@ -3,8 +3,6 @@ alias mv='mv -i'
 alias rm='safe-rm -I'
 
 alias ..='cd ..'
-
-alias ssh-addgent='eval `ssh-agent`; ssh-add'
 alias fdf='fd -t f . ~ | fzf'
 
 rand() { python ~/scripts/rand.py "$@"; }
